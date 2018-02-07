@@ -30,8 +30,11 @@ const interceptorBeforeRequest = (instance) => {
   })
 }
 
-const logon = () => {
-  saveLocalStorage(CURRENT_USER, 'user-temp')
+const logon = ({ email, senha }) => {
+  Axios
+    .post(`${BASE_API_URL}/login`, { email, senha })
+    .then(response => response.data.token)
+    .then(token => saveLocalStorage(CURRENT_USER, token))
 }
 
 const logout = () => {
