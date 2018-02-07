@@ -1,22 +1,9 @@
 import React, { PureComponent } from 'react'
 import { withRouter } from 'react-router-dom'
-import api from 'utils/api'
+import LoginForm from './loginForm'
 
 class Login extends PureComponent {
-  constructor(props){
-    super(props)
-    this.state = {
-      email: '',
-      senha: ''
-    }
-  }
-
-  logar() {
-    api.logon(this.state)
-    this.redirectToReferrer()
-  }
-
-  redirectToReferrer = () => {
+  redirectToReferrer () {
     const { history } = this.props
     const { from } = this.props.location.state || { from: { pathname: '/' } }
 
@@ -25,11 +12,7 @@ class Login extends PureComponent {
 
   render () {
     return (
-      <form onSubmit={e => { e.preventDefault; this.logar() }}>
-        <input type='text' value={this.state.email} onChange={e => this.setState({ ...this.state, email: e.target.value })} placeholder='Digite seu email'/>
-        <input type='password' value={this.state.senha} onChange={e => this.setState({ ...this.state, senha: e.target.value })} placeholder='Digite sua senha'/>
-        <button>Entrar</button>
-      </form>
+      <LoginForm onLogon={() => this.redirectToReferrer()} />
     )
   }
 }

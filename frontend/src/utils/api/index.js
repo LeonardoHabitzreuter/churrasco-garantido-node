@@ -14,7 +14,7 @@ const createAxiosInstance = () => (
   })
 )
 
-const interceptorBeforeRequest = (instance) => {
+const axiosBeforeRequest = (instance) => {
   instance.interceptors.request.use((config) => {
     config.headers = config.headers || {}
 
@@ -30,9 +30,9 @@ const interceptorBeforeRequest = (instance) => {
   })
 }
 
-const logon = ({ email, senha }) => {
+const logon = ({ email, password }) => {
   Axios
-    .post(`${BASE_API_URL}/login`, { email, senha })
+    .post(`${BASE_API_URL}/login`, { email, password })
     .then(response => response.data.token)
     .then(token => saveLocalStorage(CURRENT_USER, token))
 }
@@ -48,7 +48,7 @@ const getUser = () => {
 const api = () => {
   const axiosInstance = createAxiosInstance()
 
-  interceptorBeforeRequest(axiosInstance)
+  axiosBeforeRequest(axiosInstance)
 
   return {
     get: (url, params) => {
