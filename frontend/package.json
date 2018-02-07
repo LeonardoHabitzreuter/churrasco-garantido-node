@@ -1,0 +1,89 @@
+{
+  "name": "teste-taller-frontend",
+  "version": "1.0.0",
+  "description": "frontend do teste técnico da taller",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack-dashboard -- node server.js",
+    "test": "jest --config config/jest.json",
+    "test:watch": "npm test -- --watch",
+    "test:coverage": "npm test -- --coverage",
+    "lint": "standard --parser babel-eslint --verbose | snazzy",
+    "lint:fix": "standard --parser babel-eslint --fix",
+    "build": "cross-env NODE_ENV=production BABEL_ENV=production webpack --progress --config webpack/prod.config -p",
+    "build:analyzer": "cross-env ANALYZER=true yarn build",
+    "storybook": "start-storybook -p 6006 -c storybook",
+    "storybook:build": "cross-env NODE_ENV=production BABEL_ENV=production build-storybook -c storybook",
+    "update-packages": "node scripts/update.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LeonardoHabitzreuter/teste-taller.git"
+  },
+  "author": "Leonardo Habitzreuter <leonardo.h@hbsis.com.br> (https://github.com/LeonardoHabitzreuter)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/LeonardoHabitzreuter/teste-taller/issues"
+  },
+  "homepage": "https://github.com/LeonardoHabitzreuter/teste-taller#readme",
+  "standard": {
+    "globals": [
+      "it",
+      "describe",
+      "expect",
+      "localStorage",
+      "jest"
+    ],
+    "parser": "babel-eslint"
+  },
+  "devDependencies": {
+    "@storybook/addon-actions": "^3.3.9",
+    "@storybook/react": "^3.3.9",
+    "babel-core": "^6.26.0",
+    "babel-eslint": "^8.2.1",
+    "babel-loader": "^7.1.2",
+    "babel-plugin-import": "^1.6.3",
+    "babel-plugin-react-intl": "^2.3.1",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "chai": "^4.1.2",
+    "clean-webpack-plugin": "^0.1.17",
+    "cross-env": "^5.1.3",
+    "css-loader": "^0.28.9",
+    "deep-freeze": "^0.0.1",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
+    "enzyme-to-json": "^3.3.0",
+    "extract-text-webpack-plugin": "^3.0.2",
+    "file-loader": "^1.1.6",
+    "html-webpack-plugin": "^2.30.1",
+    "jest": "^22.1.2",
+    "react-hot-loader": "^4.0.0-beta.15",
+    "react-test-renderer": "^16.2.0",
+    "snazzy": "^7.0.0",
+    "standard-loader": "^6.0.1",
+    "style-loader": "^0.19.1",
+    "stylus": "^0.54.5",
+    "stylus-loader": "^3.0.1",
+    "url-loader": "^0.6.2",
+    "webpack": "^3.10.0",
+    "webpack-bundle-analyzer": "^2.9.2",
+    "webpack-dashboard": "0.3.0",
+    "webpack-dev-server": "^2.11.0"
+  },
+  "dependencies": {
+    "axios": "^0.17.1",
+    "prop-types": "^15.6.0",
+    "qs": "^6.5.1",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "react-redux": "^5.0.6",
+    "react-router-dom": "^4.2.2",
+    "redux": "^3.7.2",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.2.0",
+    "standard": "^10.0.3"
+  }
+}

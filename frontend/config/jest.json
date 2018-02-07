@@ -1,0 +1,25 @@
+{
+    "collectCoverageFrom": [
+      "src/**/*.js",
+      "!src/**/*.story.js",
+      "!src/redux-flow/reducers/index.js",
+      "!src/redux-flow/reducers/**/action-creators.js",
+      "!src/components/index.js",
+      "!src/index.js",
+      "!src/app.js",
+      "!src/root.js",
+      "!config/*.js"
+    ],
+    "snapshotSerializers": [
+      "<rootDir>/node_modules/enzyme-to-json/serializer"
+    ],
+    "moduleNameMapper": {
+      "^.+\\.(styl|css|svg|png))$": "<rootDir>/config/css-stub.js",
+      "^utils(.*)$": "<rootDir>/src/utils$1",
+      "^components(.*)$": "<rootDir>/src/components$1",
+      "^redux-flow(.*)$": "<rootDir>/src/redux-flow$1"
+    },
+    "setupFiles": [
+      "<rootDir>/config/setup-tests.js"
+    ]
+  }

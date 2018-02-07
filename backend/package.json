@@ -1,0 +1,19 @@
+{
+  "name": "teste-taller-backend",
+  "version": "1.0.0",
+  "description": "backend do teste técnico da taller",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LeonardoHabitzreuter/teste-taller.git"
+  },
+  "author": "Leonardo Habitzreuter <leonardo.h@hbsis.com.br> (https://github.com/LeonardoHabitzreuter)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/LeonardoHabitzreuter/teste-taller/issues"
+  },
+  "homepage": "https://github.com/LeonardoHabitzreuter/teste-taller#readme"
+}
