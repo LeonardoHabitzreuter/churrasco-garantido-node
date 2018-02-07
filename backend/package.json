@@ -2,9 +2,25 @@
   "name": "teste-taller-backend",
   "version": "1.0.0",
   "description": "backend do teste técnico da taller",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "nyc mocha tests/**/*.js",
+    "test:dev": "mocha tests/**/*.js --watch",
+    "prepush": "npm test",
+    "start": "pm2 start configs/appConfigs.json",
+    "start:prod": "npm run start -- --env production"
+  },
+  "nyc": {
+    "functions": 0,
+    "lines": 0,
+    "check-coverage": true,
+    "reporter": [
+      "text",
+      "html"
+    ],
+    "exclude": [
+      "tests/**"
+    ]
   },
   "repository": {
     "type": "git",
@@ -17,8 +33,14 @@
   },
   "homepage": "https://github.com/LeonardoHabitzreuter/teste-taller#readme",
   "dependencies": {
+    "bcrypt": "^1.0.3",
+    "body-parser": "^1.18.2",
     "cors": "^2.8.4",
     "express": "^4.16.2",
+    "express-query-int": "^2.0.0",
+    "jsonwebtoken": "^8.1.1",
+    "mongoose": "^5.0.3",
+    "node-restful": "^0.2.6",
     "passport": "^0.4.0",
     "pm2": "^2.9.3"
   }
