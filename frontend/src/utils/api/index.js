@@ -21,7 +21,7 @@ const axiosBeforeRequest = (instance) => {
     const accessToken = getLocalStorage(TOKEN)
 
     if (accessToken) {
-      config.headers.common['Authorization'] = `Bearer ${accessToken}`
+      config.headers.common['authorization'] = accessToken
     }
 
     return config
@@ -30,12 +30,19 @@ const axiosBeforeRequest = (instance) => {
   })
 }
 
-const logon = ({ email, password }) => {
+const logon = ({ email, password }) => (
   Axios
     .post(`${BASE_API_URL}/login`, { email, password })
     .then(response => response.data.token)
     .then(token => saveLocalStorage(CURRENT_USER, token))
-}
+)
+
+const signup = ({ name, email, password, confirmPassword }) => (
+  Axios
+    .post(`${BASE_API_URL}/signup`, { name, email, password, confirmPassword })
+    .then(response => response.data.token)
+    .then(token => saveLocalStorage(CURRENT_USER, token))
+)
 
 const logout = () => {
   clearLocalStorage()
@@ -55,11 +62,12 @@ const api = () => {
       const query = qs.stringify(params)
       return axiosInstance.get(`${url}?${query}`)
     },
-    post: (url, data) => axiosInstance.post(url, data),
-    delete: url => axiosInstance.delete(url),
-    put: (url, data) => axiosInstance.put(url, data),
-    patch: (url, data) => axiosInstance.patch(url, data),
+    post: (url, data) => axiosInstance.post(`/api/${url}`, data),
+    delete: url => axiosInstance.delete(`/api/${url}`),
+    put: (url, data) => axiosInstance.put(`/api/${url}`, data),
+    patch: (url, data) => axiosInstance.patch(`/api/${url}`, data),
     logon,
+    signup,
     logout,
     getUser
   }

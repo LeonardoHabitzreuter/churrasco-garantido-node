@@ -1,7 +1,7 @@
 const express = require('express')
 const auth = require('./auth')
 
-module.exports = function (server) {
+module.exports = server => {
     const protectedApi = express.Router()
     server.use('/api', protectedApi)
 
@@ -10,11 +10,8 @@ module.exports = function (server) {
     // const products = require('../api/products/productsService')
     // products.register(protectedApi, '/products')
 
-    const openApi = express.Router()
-    server.use('/oapi', openApi)
-
     const AuthService = require('../api/users/authService')
-    openApi.post('/login', AuthService.login)
-    openApi.post('/signup', AuthService.signup)
-    openApi.post('/validateToken', AuthService.validateToken)
+    server.post('/login', AuthService.login)
+    server.post('/signup', AuthService.signup)
+    server.post('/validateToken', AuthService.validateToken)
 }
