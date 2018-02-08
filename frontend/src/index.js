@@ -1,7 +1,7 @@
 import React from 'react'
 import { render } from 'react-dom'
 import { AppContainer } from 'react-hot-loader'
-import Root from './root'
+import App from './app'
 
 const renderApp = (NextApp) => {
   render(
@@ -12,11 +12,11 @@ const renderApp = (NextApp) => {
   )
 }
 
-renderApp(Root)
+renderApp(App)
 
 if (module.hot) {
-  module.hot.accept('./root', () => {
-    const NextApp = require('./root').default
+  module.hot.accept('./app', () => {
+    const NextApp = require('./app').default
     renderApp(NextApp)
   })
 }

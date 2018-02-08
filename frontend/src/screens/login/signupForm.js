@@ -10,15 +10,19 @@ class SignUpForm extends PureComponent {
     password: '',
     confirmPassword: '',
     showErrorAlert: false,
-    errorMessages: []
+    messages: [],
+    messagesStyle: ''
   }
 
   signup () {
     api
       .signup(this.state)
-      .then(() => this.props.onSignUp())
+      .then(() => {
+        this.props.onSignUp()
+        this.setState({ messagesStyle: 'success', messages: ['Conta criada com sucesso'], showErrorAlert: true })
+      })
       .catch(e => {
-        this.setState({ ...this.state, errorMessages: e.response.data.errors, showErrorAlert: true })
+        this.setState({ messagesStyle: 'danger', messages: e.response.data.errors, showErrorAlert: true })
       })
   }
 
@@ -31,7 +35,7 @@ class SignUpForm extends PureComponent {
             <input className='col-sm-6'
               type='text'
               value={this.state.name}
-              onChange={e => this.setState({ ...this.state, name: e.target.value })}
+              onChange={e => this.setState({ name: e.target.value })}
               placeholder='Digite seu nome'
             />
           </div>
@@ -40,7 +44,7 @@ class SignUpForm extends PureComponent {
             <input className='col-sm-6'
               type='text'
               value={this.state.email}
-              onChange={e => this.setState({ ...this.state, email: e.target.value })}
+              onChange={e => this.setState({ email: e.target.value })}
               placeholder='Digite seu email'
             />
           </div>
@@ -49,7 +53,7 @@ class SignUpForm extends PureComponent {
             <input className='col-sm-6'
               type='password'
               value={this.state.password}
-              onChange={e => this.setState({ ...this.state, password: e.target.value })}
+              onChange={e => this.setState({ password: e.target.value })}
               placeholder='Digite sua senha'
             />
           </div>
@@ -58,13 +62,18 @@ class SignUpForm extends PureComponent {
             <input className='col-sm-6'
               type='password'
               value={this.state.confirmPassword}
-              onChange={e => this.setState({ ...this.state, confirmPassword: e.target.value })}
+              onChange={e => this.setState({ confirmPassword: e.target.value })}
               placeholder='Confirme sua senha'
             />
           </div>
           <Button>Criar Conta</Button>
         </form>
-        <Alert show={this.state.showErrorAlert} style='danger' handleDismiss={() => this.setState({ ...this.state, showErrorAlert: false })} messages={this.state.errorMessages} />
+        <Alert
+          show={this.state.showErrorAlert}
+          style={this.state.messagesStyle}
+          handleDismiss={() => this.setState({ showErrorAlert: false })}
+          messages={this.state.messages}
+        />
       </div>
     )
   }

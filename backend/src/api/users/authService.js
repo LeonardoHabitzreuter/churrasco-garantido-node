@@ -42,13 +42,8 @@ const validateToken = (req, res, next) => {
 
 const signup = (req, res, next) => {
     console.log(`iniciando a criação de uma conta para o usuário ${req.body.name}`)
-    const name = req.body.name || ''
-    const email = req.body.email || ''
-    const password = req.body.password || ''
-    const confirmPassword = req.body.confirm_password || ''
-    console.log(`senha ${req.body.password}`)
-    console.log(`confirmacao ${req.body.confirmPassword}`)
-
+    const { name='', email='', password='', confirmPassword='' } = req.body
+    
     if (!email.match(emailRegex)) {
         return res.status(400).send({ errors: ['O e-mail informado está inválido'] })
     }

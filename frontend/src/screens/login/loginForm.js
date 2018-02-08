@@ -15,7 +15,7 @@ class LoginForm extends PureComponent {
 
   render () {
     return (
-      <form onSubmit={e => { e.preventDefault; this.logon() }}>
+      <form onSubmit={e => { e.preventDefault(); this.logon() }}>
         <input type='text' value={this.state.email} onChange={e => this.setState({ ...this.state, email: e.target.value })} placeholder='Digite seu email'/>
         <input type='password' value={this.state.password} onChange={e => this.setState({ ...this.state, password: e.target.value })} placeholder='Digite sua senha'/>
         <Button>Entrar</Button>
