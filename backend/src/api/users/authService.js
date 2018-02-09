@@ -22,7 +22,7 @@ const login = (req, res, next) => {
             return sendErrorsFromDB(res, err)
         } else if (user && bcrypt.compareSync(password, user.password)) {
             const token = jwt.sign(user, env.authSecret, {
-                expiresIn: "1 day"
+                expiresIn: "6h"
             })
             const { name, email } = user
             res.json({ name, email, token })
@@ -64,6 +64,8 @@ const signup = (req, res, next) => {
 
     User.findOne({ email }, (err, user) => {
         if (err) {
+            console.log('erro ao buscar usuario')
+            console.log(err)
             return sendErrorsFromDB(res, err)
         } else if (user) {
             return res.status(400).send({ errors: ['Usuário já cadastrado.'] })
@@ -71,6 +73,8 @@ const signup = (req, res, next) => {
             const newUser = new User({ name, email, password: passwordHash })
             newUser.save(err => {
                 if (err) {
+                    console.log('erro ao salvar usuario')
+                    console.log(err)
                     return sendErrorsFromDB(res, err)
                 } else {
                     login(req, res, next)

@@ -8,7 +8,8 @@
     "test:dev": "mocha tests/**/*.js --watch",
     "prepush": "npm test",
     "start": "pm2 start configs/appConfigs.json",
-    "start:prod": "npm run start -- --env production"
+    "start:prod": "npm run start -- --env production",
+    "start:mon": "nodemon"
   },
   "nyc": {
     "functions": 0,
@@ -43,5 +44,8 @@
     "node-restful": "^0.2.6",
     "passport": "^0.4.0",
     "pm2": "^2.9.3"
+  },
+  "devDependencies": {
+    "nodemon": "^1.14.12"
   }
 }
