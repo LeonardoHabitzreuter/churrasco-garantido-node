@@ -18,8 +18,11 @@ class SignUpForm extends PureComponent {
     api
       .signup(this.state)
       .then(() => {
-        this.props.onSignUp()
-        this.setState({ messagesStyle: 'success', messages: ['Conta criada com sucesso'], showErrorAlert: true })
+        this.setState({
+          messagesStyle: 'success',
+          messages: ['Conta criada com sucesso'],
+          showErrorAlert: true
+        }, this.props.onSignUp)
       })
       .catch(e => {
         this.setState({ messagesStyle: 'danger', messages: e.response.data.errors, showErrorAlert: true })
@@ -29,6 +32,12 @@ class SignUpForm extends PureComponent {
   render () {
     return (
       <div>
+        <Alert
+          show={this.state.showErrorAlert}
+          style={this.state.messagesStyle}
+          handleDismiss={() => this.setState({ showErrorAlert: false })}
+          messages={this.state.messages}
+        />
         <form className='form-horizontal' onSubmit={e => { e.preventDefault(); this.signup() }}>
           <div className='col-sm-12'>
             <label className='col-sm-6'>Nome:</label>
@@ -68,12 +77,6 @@ class SignUpForm extends PureComponent {
           </div>
           <Button>Criar Conta</Button>
         </form>
-        <Alert
-          show={this.state.showErrorAlert}
-          style={this.state.messagesStyle}
-          handleDismiss={() => this.setState({ showErrorAlert: false })}
-          messages={this.state.messages}
-        />
       </div>
     )
   }

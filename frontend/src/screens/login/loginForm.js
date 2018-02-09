@@ -1,4 +1,5 @@
 import Button from 'components/button'
+import Form from 'components/form'
 import React, { PureComponent } from 'react'
 import api from 'utils/api'
 
@@ -15,11 +16,12 @@ class LoginForm extends PureComponent {
 
   render () {
     return (
-      <form onSubmit={e => { e.preventDefault(); this.logon() }}>
-        <input type='text' value={this.state.email} onChange={e => this.setState({ ...this.state, email: e.target.value })} placeholder='Digite seu email'/>
-        <input type='password' value={this.state.password} onChange={e => this.setState({ ...this.state, password: e.target.value })} placeholder='Digite sua senha'/>
-        <Button>Entrar</Button>
-      </form>
+      // <form onSubmit={this.logon}>
+      //   <input type='text' value={this.state.email} onChange={e => this.setState({ ...this.state, email: e.target.value })} placeholder='Digite seu email'/>
+      //   <input type='password' value={this.state.password} onChange={e => this.setState({ ...this.state, password: e.target.value })} placeholder='Digite sua senha'/>
+      //   <Button>Entrar</Button>
+      // </form>
+      <Form onSubmit={this.logon} />
     )
   }
 }

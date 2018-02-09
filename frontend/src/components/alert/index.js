@@ -7,10 +7,10 @@ export default ({ show, style, handleDismiss, messages }) => (
     {
     show &&
     <Alert bsStyle={style} onDismiss={handleDismiss}>
-      {messages.map(message => (
-        <p>
+      {messages.map((message, index) => (
+        <li key={index}>
           {message}
-        </p>
+        </li>
       ))}
       <Button onClick={handleDismiss}>Fechar</Button>
     </Alert>

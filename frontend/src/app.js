@@ -1,8 +1,8 @@
 import React from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { PrivateRoute } from 'components'
-import Login from './screens/login'
 import Main from './screens'
+import Login from './screens/login'
 
 const App = () => {
   return (

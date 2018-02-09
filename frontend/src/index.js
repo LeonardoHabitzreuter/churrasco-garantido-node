@@ -2,11 +2,15 @@ import React from 'react'
 import { render } from 'react-dom'
 import { AppContainer } from 'react-hot-loader'
 import App from './app'
+import Menu from 'components/menu'
 
 const renderApp = (NextApp) => {
   render(
     <AppContainer>
-      <NextApp />
+      <div>
+        <Menu />
+        <NextApp />
+      </div>
     </AppContainer>,
     document.querySelector('[data-js="app"]')
   )

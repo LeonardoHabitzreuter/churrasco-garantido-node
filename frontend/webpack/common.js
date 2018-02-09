@@ -18,7 +18,7 @@ module.exports = {
   },
 
   htmlPluginConfig: {
-    title: 'Workflow Login React',
+    title: 'Empresas com Churrasco Garantido',
     template: join(paths.root, 'public', 'index.html')
   },
 
