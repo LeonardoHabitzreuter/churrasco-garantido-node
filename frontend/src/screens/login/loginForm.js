@@ -1,27 +1,30 @@
-import Button from 'components/button'
 import Form from 'components/form'
 import React, { PureComponent } from 'react'
 import api from 'utils/api'
 
 class LoginForm extends PureComponent {
-  state = {
-    email: '',
-    password: ''
-  }
-
-  logon () {
-    api.logon(this.state)
+  logon ({ email, senha }) {
+    api.logon({ email, password: senha })
     this.props.onLogon()
   }
 
   render () {
     return (
-      // <form onSubmit={this.logon}>
-      //   <input type='text' value={this.state.email} onChange={e => this.setState({ ...this.state, email: e.target.value })} placeholder='Digite seu email'/>
-      //   <input type='password' value={this.state.password} onChange={e => this.setState({ ...this.state, password: e.target.value })} placeholder='Digite sua senha'/>
-      //   <Button>Entrar</Button>
-      // </form>
-      <Form onSubmit={this.logon} />
+      <Form
+        fields={[{
+          name: 'email',
+          type: 'email',
+          required: true
+        }, {
+          name: 'senha',
+          type: 'password',
+          required: true,
+          minLength: 6,
+          maxLength: 20
+        }]}
+        onSubmit={this.logon}
+        buttonName='Logar'
+      />
     )
   }
 }

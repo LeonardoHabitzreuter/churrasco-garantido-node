@@ -20,16 +20,20 @@ class Login extends PureComponent {
   render () {
     return (
       <div className='col-sm-8'>
-        <PageHeader>{ this.state.userHasAnAccount ? 'Login' : 'Criar nova conta' }</PageHeader>
+        <PageHeader>
+          { this.state.userHasAnAccount ? 'Login' : 'Criar nova conta' }
+          <Button
+            bsStyle='link'
+            bsSize='large'
+            onClick={() => this.setState({ userHasAnAccount: !this.state.userHasAnAccount })}>
+            {this.state.userHasAnAccount ? 'Ainda não possuo uma conta' : 'Já possuo uma conta'}
+          </Button>
+        </PageHeader>
         {
           this.state.userHasAnAccount
             ? (<LoginForm onLogon={() => this.redirectToIndex()} />)
             : (<SignUpForm onSignUp={() => this.redirectToIndex()} />)
         }
-        <Button
-          onClick={() => this.setState({ userHasAnAccount: !this.state.userHasAnAccount })}>
-          {this.state.userHasAnAccount ? 'Ainda não possuo uma conta' : 'Já possuo uma conta'}
-        </Button>
       </div>
     )
   }

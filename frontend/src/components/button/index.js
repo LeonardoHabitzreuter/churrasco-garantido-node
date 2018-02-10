@@ -6,7 +6,8 @@ const Button = props => (
 )
 
 Button.defaultProps = {
-  bsStyle: 'primary'
+  bsStyle: 'primary',
+  type: 'submit'
 }
 
 export default Button

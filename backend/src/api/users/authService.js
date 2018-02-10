@@ -5,7 +5,6 @@ const User = require('./users')
 const env = require('../../.env')
 
 const emailRegex = /\S+@\S+\.\S+/
-const passwordRegex = /((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{6,20})/
 
 const sendErrorsFromDB = (res, dbErrors) => {
     const errors = []
@@ -48,10 +47,10 @@ const signup = (req, res, next) => {
         return res.status(400).send({ errors: ['O e-mail informado está inválido'] })
     }
 
-    if (!password.match(passwordRegex)) {
+    if (password.length < 6 || password.length > 20) {
         return res.status(400).send({
             errors: [
-                "Senha precisar ter: uma letra maiúscula, uma letra minúscula, um número, uma caractere especial(@#$ %) e tamanho entre 6-20."
+                "Senha precisar ter tamanho entre 6-20."
             ]
         })
     }
