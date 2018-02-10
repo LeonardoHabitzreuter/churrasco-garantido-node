@@ -13,10 +13,12 @@ class LoginForm extends PureComponent {
       <Form
         fields={[{
           name: 'email',
+          labelName: 'Email',
           type: 'email',
           required: true
         }, {
-          name: 'senha',
+          name: 'password',
+          labelName: 'Senha',
           type: 'password',
           required: true,
           minLength: 6,

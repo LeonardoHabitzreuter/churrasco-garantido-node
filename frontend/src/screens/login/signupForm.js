@@ -1,14 +1,10 @@
-import Button from 'components/button'
 import Alert from 'components/alert'
+import Form from 'components/form'
 import React, { PureComponent } from 'react'
 import api from 'utils/api'
 
 class SignUpForm extends PureComponent {
   state = {
-    name: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
     showErrorAlert: false,
     messages: [],
     messagesStyle: ''
@@ -38,45 +34,36 @@ class SignUpForm extends PureComponent {
           handleDismiss={() => this.setState({ showErrorAlert: false })}
           messages={this.state.messages}
         />
-        <form className='form-horizontal' onSubmit={e => { e.preventDefault(); this.signup() }}>
-          <div className='col-sm-12'>
-            <label className='col-sm-6'>Nome:</label>
-            <input className='col-sm-6'
-              type='text'
-              value={this.state.name}
-              onChange={e => this.setState({ name: e.target.value })}
-              placeholder='Digite seu nome'
-            />
-          </div>
-          <div className='col-sm-12'>
-            <label className='col-sm-6'>Email:</label>
-            <input className='col-sm-6'
-              type='text'
-              value={this.state.email}
-              onChange={e => this.setState({ email: e.target.value })}
-              placeholder='Digite seu email'
-            />
-          </div>
-          <div className='col-sm-12'>
-            <label className='col-sm-6'>Senha:</label>
-            <input className='col-sm-6'
-              type='password'
-              value={this.state.password}
-              onChange={e => this.setState({ password: e.target.value })}
-              placeholder='Digite sua senha'
-            />
-          </div>
-          <div className='col-sm-12'>
-            <label className='col-sm-6'>Confirme sua senha:</label>
-            <input className='col-sm-6'
-              type='password'
-              value={this.state.confirmPassword}
-              onChange={e => this.setState({ confirmPassword: e.target.value })}
-              placeholder='Confirme sua senha'
-            />
-          </div>
-          <Button>Criar Conta</Button>
-        </form>
+        <Form
+          fields={[{
+            labelName: 'Nome',
+            name: 'name',
+            type: 'text',
+            required: true,
+            minLength: 6
+          }, {
+            labelName: 'Email',
+            name: 'email',
+            type: 'email',
+            required: true
+          }, {
+            labelName: 'Senha',
+            name: 'password',
+            type: 'password',
+            required: true,
+            minLength: 6,
+            maxLength: 20
+          }, {
+            labelName: 'Confirme sua senha',
+            name: 'confirmPassword',
+            type: 'password',
+            required: true,
+            minLength: 6,
+            maxLength: 20
+          }]}
+          onSubmit={this.signup}
+          buttonName='Criar conta'
+        />
       </div>
     )
   }

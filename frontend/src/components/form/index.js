@@ -24,9 +24,9 @@ export default class Form extends PureComponent {
     this.setState({fields})
   }
 
-  getValidationMessage ({ name, required, minLength, maxLength }) {
+  getValidationMessage ({ labelName, required, minLength, maxLength }) {
     if (!required && !minLength && !maxLength) return null
-    let message = `O campo ${name}:`
+    let message = `O campo ${labelName}:`
     message = required ? `${message} É obrigatório.` : message
     message = minLength ? `${message} Deve ter no mínimo ${minLength} caracteres.` : message
     message = maxLength ? `${message} Deve ter no máximo ${maxLength} caracteres.` : message
@@ -48,15 +48,16 @@ export default class Form extends PureComponent {
     return (
       <ReactForm horizontal onSubmit={e => { e.preventDefault(); this.handleSubmit() }}>
         {
-          this.state.fields.map(({ name, type, value, ...rest }, index) => (
+          this.state.fields.map(({ labelName, name, type, value, ...rest }, index) => (
             <div key={index}>
               <FormGroup
+                labelName={labelName}
                 name={name}
                 type={type}
                 value={value}
                 onChange={e => this.handleFieldChange(index, e.target.value)}
                 validationState={this.getValidationState({ value, ...rest })}
-                validationMessage={this.getValidationMessage({ name, ...rest })}
+                validationMessage={this.getValidationMessage({ labelName, ...rest })}
               />
             </div>
           ))
