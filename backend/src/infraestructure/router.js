@@ -7,8 +7,8 @@ module.exports = server => {
 
     protectedApi.use(auth)
 
-    // const products = require('../api/products/productsService')
-    // products.register(protectedApi, '/products')
+    const user = require('../api/users/userService')
+    user.UserModel.register(protectedApi, '/users')
 
     const AuthService = require('../api/users/authService')
     server.post('/login', AuthService.login)

@@ -2,29 +2,21 @@ const _ = require('lodash')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 const User = require('./users')
+const UserService = require('./userService')
 const env = require('../../.env')
-
-const emailRegex = /\S+@\S+\.\S+/
-
-const sendErrorsFromDB = (res, dbErrors) => {
-    const errors = []
-    _.forIn(dbErrors.errors, error => errors.push(error.message))
-    return res.status(400).json({ errors })
-}
+const errorHandler = require('../../infraestructure/errorHandler')
 
 const login = (req, res, next) => {
-    const email = req.body.email || ''
-    const password = req.body.password || ''
+    const { email='', password='' } = req.body
 
     User.findOne({ email }, (err, user) => {
         if (err) {
-            return sendErrorsFromDB(res, err)
+            return errorHandler.handleMongoDBErrors(res, err)
         } else if (user && bcrypt.compareSync(password, user.password)) {
-            const token = jwt.sign(user, env.authSecret, {
-                expiresIn: "6h"
+            const token = jwt.sign({id: user.id}, env.authSecret, {
+                expiresIn: '6h'
             })
-            const { name, email } = user
-            res.json({ name, email, token })
+            res.json({ userId: user.id, token })
         } else {
             return res.status(400).send({ errors: ['Usuário/Senha inválidos'] })
         }
@@ -40,47 +32,33 @@ const validateToken = (req, res, next) => {
 }
 
 const signup = (req, res, next) => {
-    console.log(`iniciando a criação de uma conta para o usuário ${req.body.name}`)
-    const { name='', email='', password='', confirmPassword='' } = req.body
-    
-    if (!email.match(emailRegex)) {
-        return res.status(400).send({ errors: ['O e-mail informado está inválido'] })
-    }
-
-    if (password.length < 6 || password.length > 20) {
-        return res.status(400).send({
-            errors: [
-                "Senha precisar ter tamanho entre 6-20."
-            ]
-        })
-    }
+    const { name='', email='', password='' } = req.body
 
     const salt = bcrypt.genSaltSync()
     const passwordHash = bcrypt.hashSync(password, salt)
-    if (!bcrypt.compareSync(confirmPassword, passwordHash)) {
-        return res.status(400).send({ errors: ['Senhas não conferem.'] })
+
+    const createUser = err => {
+        if(err) return res.status(400).send(err)
+
+        User.findOne({ email }, (err, user) => {
+            if (err) {
+                return errorHandler.handleMongoDBErrors(res, err)
+            } else if (user) {
+                return res.status(400).send({ errors: ['Email já cadastrado.'] })
+            } else {
+                const newUser = new User({ name, email, password: passwordHash })
+                newUser.save(err => {
+                    if (err) {
+                        return errorHandler.handleMongoDBErrors(res, err)
+                    } else {
+                        login(req, res, next)
+                    }
+                })
+            }
+        })
     }
 
-    User.findOne({ email }, (err, user) => {
-        if (err) {
-            console.log('erro ao buscar usuario')
-            console.log(err)
-            return sendErrorsFromDB(res, err)
-        } else if (user) {
-            return res.status(400).send({ errors: ['Usuário já cadastrado.'] })
-        } else {
-            const newUser = new User({ name, email, password: passwordHash })
-            newUser.save(err => {
-                if (err) {
-                    console.log('erro ao salvar usuario')
-                    console.log(err)
-                    return sendErrorsFromDB(res, err)
-                } else {
-                    login(req, res, next)
-                }
-            })
-        }
-    })
+    UserService.validateUser({ ...req.body, passwordHash }, createUser)
 }
 
-module.exports = { login, signup, validateToken }
+module.exports = { login , signup, validateToken }

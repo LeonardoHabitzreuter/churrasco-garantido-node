@@ -4,7 +4,7 @@ const env = require('../.env')
 const verifyToken = (req, res, next) => {
     const returnTokenInvalid = () => res.status(403).send({errors: ['Failed to authenticate token.']})
 
-    const token = req.body.token || req.query.token || req.headers['authorization']
+    const token = req.headers['authorization']
 
     if (!token) return res.status(403).send({ errors: ['No token provided.'] })
 
