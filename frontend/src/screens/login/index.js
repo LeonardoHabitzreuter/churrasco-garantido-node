@@ -11,10 +11,9 @@ class Login extends PureComponent {
   }
 
   redirectToIndex () {
-    /* const { history } = this.props
-    const { from } = this.props.location.state || { from: { pathname: '/' } }
+    const { history } = this.props
 
-    history.push(from.pathname) */
+    history.push('/dashboard')
   }
 
   render () {

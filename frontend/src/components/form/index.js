@@ -9,7 +9,11 @@ export default class Form extends PureComponent {
   }
 
   componentDidMount () {
-    this.setState({ fields: this.props.fields.map(field => ({ ...field, value: '' })) })
+    this.setState({ fields: this.props.fields })
+  }
+
+  componentWillReceiveProps (nextProps) {
+    this.setState({ fields: nextProps.fields })
   }
 
   getValidationState ({ value, required, minLength, maxLength }) {

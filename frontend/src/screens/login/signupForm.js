@@ -7,21 +7,20 @@ class SignUpForm extends PureComponent {
   state = {
     showErrorAlert: false,
     messages: [],
-    messagesStyle: ''
+    messagesStyle: 'danger'
   }
 
-  signup () {
+  signup ({ name, email, password, confirmPassword }) {
     api
-      .signup(this.state)
+      .signup({ name, email, password, confirmPassword })
       .then(() => {
-        this.setState({
-          messagesStyle: 'success',
-          messages: ['Conta criada com sucesso'],
-          showErrorAlert: true
-        }, this.props.onSignUp)
+        this.props.onSignUp()
       })
       .catch(e => {
-        this.setState({ messagesStyle: 'danger', messages: e.response.data.errors, showErrorAlert: true })
+        this.setState({
+          messages: e.response ? e.response.data.errors : ['Aconteceu um erro ao tentar criar conta no sistema, tente novamente'],
+          showErrorAlert: true
+        })
       })
   }
 
@@ -40,33 +39,41 @@ class SignUpForm extends PureComponent {
             name: 'name',
             type: 'text',
             required: true,
-            minLength: 6
+            minLength: 6,
+            value: ''
           }, {
             labelName: 'Email',
             name: 'email',
             type: 'email',
-            required: true
+            required: true,
+            value: ''
           }, {
             labelName: 'Senha',
             name: 'password',
             type: 'password',
             required: true,
             minLength: 6,
-            maxLength: 20
+            maxLength: 20,
+            value: ''
           }, {
             labelName: 'Confirme sua senha',
             name: 'confirmPassword',
             type: 'password',
             required: true,
             minLength: 6,
-            maxLength: 20
+            maxLength: 20,
+            value: ''
           }]}
-          onSubmit={this.signup}
+          onSubmit={userData => this.signup(userData)}
           buttonName='Criar conta'
         />
       </div>
     )
   }
+}
+
+SignUpForm.defaultProps = {
+  onSignUp: () => {}
 }
 
 export default SignUpForm

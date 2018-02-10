@@ -19,7 +19,6 @@ const axiosBeforeRequest = (instance) => {
     config.headers = config.headers || {}
 
     const accessToken = getLocalStorage(TOKEN)
-
     if (accessToken) {
       config.headers.common['authorization'] = accessToken
     }
@@ -33,8 +32,10 @@ const axiosBeforeRequest = (instance) => {
 const logon = ({ email, password }) => (
   Axios
     .post(`${BASE_API_URL}/login`, { email, password })
-    .then(response => response.data.token)
-    .then(token => saveLocalStorage(CURRENT_USER, token))
+    .then(response => {
+      saveLocalStorage(TOKEN, response.data.token)
+      saveLocalStorage(CURRENT_USER, response.data.userId)
+    })
 )
 
 const signup = ({ name, email, password, confirmPassword }) => (
@@ -60,7 +61,7 @@ const api = () => {
   return {
     get: (url, params) => {
       const query = qs.stringify(params)
-      return axiosInstance.get(`${url}?${query}`)
+      return axiosInstance.get(`/api/${url}?${query}`)
     },
     post: (url, data) => axiosInstance.post(`/api/${url}`, data),
     delete: url => axiosInstance.delete(`/api/${url}`),
