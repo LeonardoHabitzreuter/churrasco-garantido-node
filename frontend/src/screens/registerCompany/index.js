@@ -21,14 +21,18 @@ class RegisterCompany extends PureComponent {
           this.setState({
             messages: ['Empresa cadastrada com sucesso!'],
             showErrorAlert: true,
-            messagesStyle: 'success'
+            messagesStyle: 'success',
+            name: '',
+            cnpj: ''
           })
         })
         .catch(e => {
           this.setState({
             messages: e.response ? e.response.data.errors : ['Aconteceu um erro ao tentar cadastrar a empresa, tente novamente'],
             showErrorAlert: true,
-            messagesStyle: 'danger'
+            messagesStyle: 'danger',
+            name,
+            cnpj
           })
         })
   }

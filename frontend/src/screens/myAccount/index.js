@@ -36,7 +36,9 @@ class MyAccount extends PureComponent {
           this.setState({
             messages: ['Dados atualizados com sucesso!'],
             showErrorAlert: true,
-            messagesStyle: 'success'
+            messagesStyle: 'success',
+            name,
+            email
           })
         })
         .catch(e => {

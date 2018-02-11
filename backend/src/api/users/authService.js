@@ -26,39 +26,28 @@ const login = (req, res, next) => {
 const validateToken = (req, res, next) => {
     const token = req.body.token || ''
 
-    jwt.verify(token, env.authSecret, function (err, decoded) {
+    jwt.verify(token, env.authSecret, (err, decoded) => {
         return res.status(200).send({ valid: !err })
     })
 }
 
 const signup = (req, res, next) => {
-    const { name='', email='', password='' } = req.body
-
+    const { name='', email='', password='', confirmPassword='' } = req.body
     const salt = bcrypt.genSaltSync()
     const passwordHash = bcrypt.hashSync(password, salt)
 
-    const createUser = err => {
-        if(err) return res.status(400).send(err)
+    const createUser = errors => {
+        if (_.some(errors)) return res.status(400).send({ errors })
 
-        User.findOne({ email }, (err, user) => {
-            if (err) {
-                return errorHandler.handleMongoDBErrors(res, err)
-            } else if (user) {
-                return res.status(400).send({ errors: ['Email já cadastrado.'] })
-            } else {
-                const newUser = new User({ name, email, password: passwordHash })
-                newUser.save(err => {
-                    if (err) {
-                        return errorHandler.handleMongoDBErrors(res, err)
-                    } else {
-                        login(req, res, next)
-                    }
-                })
-            }
+        const newUser = new User({ name, email, password: passwordHash })
+        newUser.save(err => {
+            if (err) return errorHandler.handleMongoDBErrors(res, err)
+
+            login(req, res, next)
         })
     }
 
-    UserService.validateUser({ ...req.body, passwordHash }, createUser)
+    UserService.getValidationErrors({ name, email, password, passwordHash, confirmPassword }, createUser)
 }
 
 module.exports = { login , signup, validateToken }

@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt')
 const User = require('./users')
 const errorHandler = require('../../infraestructure/errorHandler')
+const getErrors = require('../entitiesFieldsValidator').getErrors
 const _ = require('lodash')
 const emailRegex = /\S+@\S+\.\S+/
 
@@ -10,39 +11,58 @@ User.after('put', errorHandler.handleNodeRestfulErrors)
 
 const updateUser = (req, res, next) => {
     if (req.method === 'PUT') {
+        const { name='', email='', password='', confirmPassword='' } = req.body
         const salt = bcrypt.genSaltSync()
         const passwordHash = bcrypt.hashSync(req.body.password, salt)
-        
-        const saveUser = err => {
-            if (err) return errorHandler.handleMongoDBErrors(res, err)
+
+        const saveUser = errors => {
+            if (_.some(errors)) return res.status(400).send({ errors })
             
-            User.update({ _id: req.params.id }, { $set: { ...req.body, password: passwordHash }}, saveErr => {
+            User.update({ _id: req.params.id }, { $set: { name, email, password: passwordHash }}, saveErr => {
                 if (saveErr) return errorHandler.handleMongoDBErrors(res, saveErr)
 
-                return res.status(200).send()
+                res.status(200).send()
             })
         }
 
-        validateUser({ ...req.body, passwordHash }, saveUser)
+        getValidationErrors({ id: req.params.id, name, email, password, passwordHash, confirmPassword }, saveUser)
     } else {
         next()
     }
 }
 
-const validateUser = ({ email='', password='', passwordHash='', confirmPassword='' }, callback) => {
-    const errors = []
+const getValidationErrors = ({ id= null, name, email, password, passwordHash, confirmPassword }, callback) => {
+    const errors = getErrors([
+        { name: 'senha', value: password, minLength: 6, maxLength: 20 },
+        { name: 'nome', value: name, minLength: 6 }
+    ])
 
     if (!email.match(emailRegex)) errors.push('O e-mail informado está inválido.')
 
-    if (password.length < 6 || password.length > 20) errors.push('Senha precisar ter tamanho entre 6-20.')
-
     if (!bcrypt.compareSync(confirmPassword, passwordHash)) errors.push('Senhas não conferem.')
 
-    callback(_.some(errors) ? { errors } : null)
+    if (_.some(errors)) {
+        callback(errors)
+        return
+    }
+
+    User.findOne({ email }, (err, user) => {
+        if (err) {
+            _.forIn(dbErrors.errors, error => errors.push(error.message))
+            callback(errors)
+            return
+        }
+        
+        if (user && user.id !== id) {
+            errors.push('Email já cadastrado.')
+            callback(errors)
+        }
+        callback([])
+    })
 }
 
 module.exports = {
     UserModel: User,
-    validateUser,
+    getValidationErrors,
     updateUser
 }

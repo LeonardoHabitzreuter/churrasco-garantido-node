@@ -1,6 +1,7 @@
 const express = require('express')
 const auth = require('./auth')
 const userService = require('../api/users/userService')
+const companiesService = require('../api/companies/companiesService')
 
 module.exports = server => {
     const protectedApi = express.Router()
@@ -11,6 +12,10 @@ module.exports = server => {
     const user = require('../api/users/userService')
     user.UserModel.register(protectedApi, '/users')
     server.use('/api/users/:id', userService.updateUser)
+
+    const company = require('../api/companies/companiesService')
+    company.CompanyModel.register(protectedApi, '/companies')
+    server.use('/api/companies', companiesService.createCompany)
 
     const AuthService = require('../api/users/authService')
     server.post('/login', AuthService.login)

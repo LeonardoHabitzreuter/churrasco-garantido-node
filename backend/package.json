@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "test": "nyc mocha tests/**/*.js",
-    "test:dev": "mocha tests/**/*.js --watch",
+    "test:dev": "mocha tests/**/*.tests.js --watch",
     "prepush": "npm test",
     "start": "pm2 start configs/appConfigs.json",
     "start:prod": "npm run start -- --env production"
@@ -48,7 +48,9 @@
     "chai": "^4.1.2",
     "mocha": "^5.0.0",
     "nodemon": "^1.14.12",
+    "nyc": "^11.4.1",
     "sinon": "^4.3.0",
-    "sinon-chai": "^2.14.0"
+    "sinon-chai": "^2.14.0",
+    "supertest": "^3.0.0"
   }
 }
