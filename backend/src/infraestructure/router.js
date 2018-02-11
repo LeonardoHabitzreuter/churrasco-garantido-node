@@ -1,5 +1,6 @@
 const express = require('express')
 const auth = require('./auth')
+const userService = require('../api/users/userService')
 
 module.exports = server => {
     const protectedApi = express.Router()
@@ -9,6 +10,7 @@ module.exports = server => {
 
     const user = require('../api/users/userService')
     user.UserModel.register(protectedApi, '/users')
+    server.use('/api/users/:id', userService.updateUser)
 
     const AuthService = require('../api/users/authService')
     server.post('/login', AuthService.login)

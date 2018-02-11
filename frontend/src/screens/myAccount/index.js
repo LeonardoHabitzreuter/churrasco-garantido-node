@@ -2,7 +2,6 @@ import Alert from 'components/alert'
 import Form from 'components/form'
 import React, {PureComponent} from 'react'
 import api from 'utils/api'
-import { head as first } from 'lodash'
 
 class MyAccount extends PureComponent {
   state = {
@@ -17,9 +16,9 @@ class MyAccount extends PureComponent {
 
   componentDidMount () {
     api
-      .get('users', { id: api.getUser() })
+      .get(`users/${api.getUser()}`)
       .then(response => {
-        const { _id: id, name, email } = first(response.data)
+        const { _id: id, name, email } = response.data
         this.setState({
           name,
           email

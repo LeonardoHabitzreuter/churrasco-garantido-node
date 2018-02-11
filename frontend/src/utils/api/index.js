@@ -41,8 +41,10 @@ const logon = ({ email, password }) => (
 const signup = ({ name, email, password, confirmPassword }) => (
   Axios
     .post(`${BASE_API_URL}/signup`, { name, email, password, confirmPassword })
-    .then(response => response.data.token)
-    .then(token => saveLocalStorage(CURRENT_USER, token))
+    .then(response => {
+      saveLocalStorage(TOKEN, response.data.token)
+      saveLocalStorage(CURRENT_USER, response.data.userId)
+    })
 )
 
 const logout = () => {
