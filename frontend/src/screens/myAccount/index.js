@@ -1,5 +1,6 @@
 import Alert from 'components/alert'
 import Form from 'components/form'
+import { PageHeader } from 'react-bootstrap'
 import React, {PureComponent} from 'react'
 import api from 'utils/api'
 
@@ -50,6 +51,7 @@ class MyAccount extends PureComponent {
   render () {
     return (
       <div className='col-sm-8'>
+        <PageHeader>Minha conta</PageHeader>
         <Alert
           show={this.state.showErrorAlert}
           style={this.state.messagesStyle}

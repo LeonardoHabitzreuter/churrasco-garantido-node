@@ -15,6 +15,9 @@ export default props => (
           <NavItem eventKey={1} href='dashboard'>
               Dashboard
           </NavItem>
+          <NavItem eventKey={1} href='registerCompany'>
+              Cadastrar empresa
+          </NavItem>
           <NavItem eventKey={1} href='myAccount'>
               Minha conta
           </NavItem>

@@ -5,15 +5,17 @@ import Dashboard from './screens/dashboard'
 import Login from './screens/login'
 import Logout from 'components/menu/logout'
 import MyAccount from './screens/myAccount'
+import RegisterCompany from './screens/registerCompany'
 
 const App = () => {
   return (
     <Router>
       <Switch>
         <Route path='/login' component={Login} />
-        <PrivateRoute path='/logout' component={Logout} />
         <PrivateRoute path='/dashboard' component={Dashboard} />
+        <PrivateRoute path='/registerCompany' component={RegisterCompany} />
         <PrivateRoute path='/myAccount' component={MyAccount} />
+        <PrivateRoute path='/logout' component={Logout} />
       </Switch>
     </Router>
   )

@@ -38,7 +38,11 @@ export default class Form extends PureComponent {
   }
 
   handleSubmit () {
-    const currentFieldStates = this.state.fields.map(field => this.getValidationState({ ...field }))
+    const currentFieldStates = this.state.fields.map(
+      field => field.validation
+      ? field.validation(field.value)
+      : this.getValidationState({ ...field })
+    )
     if (currentFieldStates.some(state => state === 'error')) return
 
     const fieldData = {}
@@ -52,7 +56,7 @@ export default class Form extends PureComponent {
     return (
       <ReactForm horizontal onSubmit={e => { e.preventDefault(); this.handleSubmit() }}>
         {
-          this.state.fields.map(({ labelName, name, type, value, ...rest }, index) => (
+          this.state.fields.map(({ labelName, name, type, value, validation, ...rest }, index) => (
             <div key={index}>
               <FormGroup
                 labelName={labelName}
@@ -60,8 +64,8 @@ export default class Form extends PureComponent {
                 type={type}
                 value={value}
                 onChange={e => this.handleFieldChange(index, e.target.value)}
-                validationState={this.getValidationState({ value, ...rest })}
-                validationMessage={this.getValidationMessage({ labelName, ...rest })}
+                validationState={validation ? validation(value) : this.getValidationState({ value, ...rest })}
+                validationMessage={validation ? undefined : this.getValidationMessage({ labelName, ...rest })}
               />
             </div>
           ))
