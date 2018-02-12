@@ -6,7 +6,7 @@ chai.use(sinonChai)
 const bcrypt = require('bcrypt')
 const salt = bcrypt.genSaltSync()
 
-const User = require('../../../src/api/users/users')
+const User = require('../../../src/api/users/users').model
 const userService = require('../../../src/api/users/userService')
 
 describe('userService', () => {

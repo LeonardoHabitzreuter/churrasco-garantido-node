@@ -1,7 +1,12 @@
 const express = require('express')
+
 const auth = require('./auth')
+const AuthService = require('../api/users/authService')
+const user = require('../api/users/userService')
 const userService = require('../api/users/userService')
+const company = require('../api/companies/companiesService')
 const companiesService = require('../api/companies/companiesService')
+const order = require('../api/orders/ordersService')
 
 module.exports = server => {
     const protectedApi = express.Router()
@@ -9,15 +14,14 @@ module.exports = server => {
 
     protectedApi.use(auth)
 
-    const user = require('../api/users/userService')
     user.UserModel.register(protectedApi, '/users')
     server.use('/api/users/:id', userService.updateUser)
 
-    const company = require('../api/companies/companiesService')
     company.CompanyModel.register(protectedApi, '/companies')
     server.use('/api/companies', companiesService.createCompany)
 
-    const AuthService = require('../api/users/authService')
+    order.register(protectedApi, '/orders')
+
     server.post('/login', AuthService.login)
     server.post('/signup', AuthService.signup)
     server.post('/validateToken', AuthService.validateToken)

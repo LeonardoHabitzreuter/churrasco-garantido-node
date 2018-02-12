@@ -1,4 +1,4 @@
-const Company = require('./company')
+const Company = require('./company').model
 const errorHandler = require('../../infraestructure/errorHandler')
 const _ = require('lodash')
 const cnpjValidator = require('../cnpjValidator')

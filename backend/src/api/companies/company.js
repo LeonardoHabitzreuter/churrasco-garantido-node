@@ -6,4 +6,7 @@ const companySchema = new mongoose.Schema({
     cnpj: { type: String, min: 14, max: 14, required: true }
 })
 
-module.exports = restful.model('Company', companySchema)
+module.exports = {
+    model: restful.model('Company', companySchema),
+    company: companySchema
+}

@@ -7,4 +7,7 @@ const userSchema = new mongoose.Schema({
     password: { type: String, min: 6, max: 12, required: true }
 })
 
-module.exports = restful.model('User', userSchema)
+module.exports = {
+    model: restful.model('User', userSchema),
+    user: userSchema
+}

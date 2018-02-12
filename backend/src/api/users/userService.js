@@ -1,5 +1,5 @@
 const bcrypt = require('bcrypt')
-const User = require('./users')
+const User = require('./users').model
 const errorHandler = require('../../infraestructure/errorHandler')
 const getErrors = require('../entitiesFieldsValidator').getErrors
 const _ = require('lodash')
