@@ -18,6 +18,9 @@ export default props => (
           <NavItem eventKey={1} href='registerCompany'>
               Cadastrar empresa
           </NavItem>
+          <NavItem eventKey={1} href='newOrder'>
+              Novo pedido
+          </NavItem>
           <NavItem eventKey={1} href='myAccount'>
               Minha conta
           </NavItem>
