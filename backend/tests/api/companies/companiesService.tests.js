@@ -7,7 +7,7 @@ chai.use(sinonChai)
 
 const server = require('../../../src/infraestructure/server')
 require('../../../src/infraestructure/router')(server)
-const Company = require('../../../src/api/companies/company').model
+const Company = require('../../../src/api/companies/company')
 
 describe('companiesRequests', () => {
     let createStub = sinon.stub(Company, 'create')
