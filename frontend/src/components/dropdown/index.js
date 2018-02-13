@@ -2,26 +2,30 @@ import React from 'react'
 import { DropdownButton, MenuItem } from 'react-bootstrap'
 import PropTypes from 'prop-types'
 
-const Dropdown = ({ id, selected, items }) => (
-  <DropdownButton bsStyle='default' title={selected} id={id}>
+const getSelectedItemFromIndex = (items, selectedIndex) => items.find((element, index) => index === selectedIndex)
+
+const Dropdown = ({ id, selectedIndex, items, onChange }) => (
+  <DropdownButton bsStyle='default' title={getSelectedItemFromIndex(items, selectedIndex) || ''} id={id}>
     {
       items.map((item, index) => (
-        item !== selected && <MenuItem onSelect={e => console.log(e)} key={index} eventKey={index}>{item}</MenuItem>
+        index !== selectedIndex && <MenuItem onSelect={key => onChange(key)} key={index} eventKey={index}>{item}</MenuItem>
       ))
     }
-    <MenuItem eventKey={items.findIndex(item => item === selected)} active>{selected}</MenuItem>
+    <MenuItem eventKey={selectedIndex} active>{getSelectedItemFromIndex(items, selectedIndex)}</MenuItem>
   </DropdownButton>
 )
 
 Dropdown.propTypes = {
   id: PropTypes.string.isRequired,
-  selected: PropTypes.string,
-  items: PropTypes.array
+  selectedIndex: PropTypes.number,
+  items: PropTypes.array,
+  onChange: PropTypes.func
 }
 
 Dropdown.defaultProps = {
   items: [],
-  selected: ''
+  selectedIndex: null,
+  onChange: () => {}
 }
 
 export default Dropdown
