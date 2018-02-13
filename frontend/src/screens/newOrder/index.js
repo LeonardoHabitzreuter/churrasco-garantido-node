@@ -5,7 +5,7 @@ import Table from 'components/table'
 import api from 'utils/api'
 import React, { PureComponent } from 'react'
 import { PageHeader, Label } from 'react-bootstrap'
-import { head, some } from 'lodash'
+import { head } from 'lodash'
 
 const InputGroup = ({ labelName, children }) => (
   <div className='col-sm-3'>
@@ -14,7 +14,7 @@ const InputGroup = ({ labelName, children }) => (
   </div>
 )
 
-const PRODUCTS = ['Skol', 'Brahma', 'Stella']
+const PRODUCTS = ['Stella', 'Budweiser', 'Skol']
 
 class NewOrder extends PureComponent {
   state = {
@@ -24,7 +24,8 @@ class NewOrder extends PureComponent {
     companies: [],
     selectedCompany: null,
     selectedProduct: 0,
-    productAmount: 1
+    productAmount: 1,
+    productsAdded: [{ product: 'Stella', amount: 5 }, { product: 'Budweiser', amount: 5 }]
   }
 
   componentDidMount () {
@@ -38,10 +39,15 @@ class NewOrder extends PureComponent {
       })
   }
 
-  saveNewOrder () {
+  requestNewOrder () {
+    const { selectedCompany, productsAdded } = this.state
+    const messages = []
+    if (!selectedCompany) messages.push('Por favor, selecione uma empresa para qual você quer fazer o pedido.')
+    if (!head(productsAdded)) messages.push('Por favor, adicione produtos na lista.')
+
     api
     .post('orders', {
-      author: api.getUser(),
+      creator: api.getUser(),
       company: '5a808c3c8fab410d0ac98897',
       products: [{
         name: 'Carvao'
@@ -51,16 +57,33 @@ class NewOrder extends PureComponent {
     })
   }
 
+  getSameProductFromTable (productsAdded, selectedProduct) {
+    return productsAdded.find(productAdded => productAdded.product === PRODUCTS[selectedProduct])
+  }
+
   addProduct () {
-    const messages = []
-    if (this.state.selectedCompany === null) messages.push('Por favor, selecione uma empresa para qual você quer fazer o pedido.')
-    if (+this.state.productAmount < 1) messages.push('Por favor, selecione uma quantidade de produtos maior que 0.')
-    if (some(messages)) {
-      this.setState({ showErrorAlert: true, messages, messagesStyle: 'danger' })
+    const { productsAdded, selectedProduct, productAmount } = this.state
+
+    if (+productAmount < 1) {
+      this.setState({
+        showErrorAlert: true,
+        messages: ['Por favor, selecione uma quantidade de produtos maior que 0.'],
+        messagesStyle: 'danger'
+      })
       return
     }
+    const oldProduct = this.getSameProductFromTable(productsAdded, selectedProduct)
 
-    console.log('salvar')
+    const updatedProductsList = productsAdded.map(product => (
+      product === oldProduct
+      ? { ...product, amount: product.amount + +productAmount }
+      : product
+      )
+    )
+
+    if (!oldProduct) updatedProductsList.push({ product: PRODUCTS[selectedProduct], amount: productAmount })
+
+    this.setState({ productsAdded: updatedProductsList })
   }
 
   render () {
@@ -100,7 +123,6 @@ class NewOrder extends PureComponent {
           </InputGroup>
           <InputGroup labelName={`${this.state.productAmount} ${PRODUCTS.find((element, index) => index === this.state.selectedProduct)}`}>
             <Button
-              className='d-flex align-items-center'
               onClick={() => this.addProduct()}
               bsStyle='success'
               type='button'
@@ -111,10 +133,17 @@ class NewOrder extends PureComponent {
         </div>
         <div style={({ paddingTop: '5rem' })}>
           <Table
-            columns={[{ description: 'Empresa', key: 'company' }, { description: 'Produto', key: 'product' }, { description: 'Quantidade', key: 'amount' }]}
-            lines={[{ company: 'Ambev', product: 'Stella', amount: 5 }, { company: 'Ambev', product: 'Budweiser', amount: 5 }]}
+            columns={[{ description: 'Produto', key: 'product' }, { description: 'Quantidade', key: 'amount' }]}
+            lines={this.state.productsAdded}
           />
         </div>
+        <Button
+          className='col-sm-2'
+          onClick={() => this.requestNewOrder()}
+          type='button'
+        >
+        Fechar pedido
+        </Button>
       </div>
     )
   }

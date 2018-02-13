@@ -15,7 +15,7 @@ const App = () => {
         <Route path='/login' component={Login} />
         <PrivateRoute path='/dashboard' component={Dashboard} />
         <PrivateRoute path='/registerCompany' component={RegisterCompany} />
-        <PrivateRoute path='/newOrder' component={NewOrder} />
+        <Route path='/newOrder' component={NewOrder} />
         <PrivateRoute path='/myAccount' component={MyAccount} />
         <PrivateRoute path='/logout' component={Logout} />
       </Switch>

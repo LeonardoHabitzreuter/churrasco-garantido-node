@@ -7,7 +7,7 @@ const product = new mongoose.Schema({
 })
 
 const order = new mongoose.Schema({
-    author: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    creator: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     company: { type: mongoose.Schema.Types.ObjectId, ref: 'Company' },
     status: { type: String, default: 'PENDING', uppercase: true, enum: ['PENDING', 'CANCELED', 'FINISHED'] },
     products: [product]
