@@ -2,9 +2,9 @@ import React from 'react'
 import { Table as ReactTable } from 'react-bootstrap'
 import PropTypes from 'prop-types'
 
-const Cell = ({ line, lineIndex, columnKey }) => {
+const Cell = ({ line, lineIndex, columnKey, ...rest }) => {
   const linePropertyEqualsColumnKey = Object.keys(line).find(element => element === columnKey)
-  return <td key={`${lineIndex}${columnKey}`}>{linePropertyEqualsColumnKey ? line[linePropertyEqualsColumnKey] : ''}</td>
+  return <td {...rest}>{linePropertyEqualsColumnKey ? line[linePropertyEqualsColumnKey] : ''}</td>
 }
 
 const Table = ({ columns, lines }) => (
@@ -19,7 +19,7 @@ const Table = ({ columns, lines }) => (
     <tbody>
       {lines.map((line, index) => (
         <tr key={index}>
-          {columns.map(column => <Cell line={line} lineIndex={index} columnKey={column.key} />)}
+          {columns.map((column, columnIndex) => <Cell key={columnIndex} line={line} lineIndex={index} columnKey={column.key} />)}
         </tr>
       ))}
     </tbody>
