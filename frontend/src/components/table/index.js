@@ -6,7 +6,7 @@ const Cell = ({ line, lineIndex, columnKey, ...rest }) => {
   const linePropertyEqualsColumnKey = Object.keys(line).find(element => element === columnKey)
   return <td {...rest}>{linePropertyEqualsColumnKey ? line[linePropertyEqualsColumnKey] : ''}</td>
 }
-
+// ToDo alterar maps por index
 const Table = ({ columns, lines }) => (
   <ReactTable responsive striped bordered condensed hover>
     <thead>

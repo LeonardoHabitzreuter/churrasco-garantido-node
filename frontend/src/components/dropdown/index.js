@@ -7,6 +7,7 @@ const getSelectedItemFromIndex = (items, selectedIndex) => items.find((element, 
 const Dropdown = ({ id, selectedIndex, items, onChange }) => (
   <DropdownButton bsStyle='default' title={getSelectedItemFromIndex(items, selectedIndex) || ''} id={id}>
     {
+      // ToDo alterar map por index
       items.map((item, index) => (
         index !== selectedIndex && <MenuItem onSelect={key => onChange(key)} key={index} eventKey={index}>{item}</MenuItem>
       ))
