@@ -26,7 +26,6 @@ const createCompany = (req, res, next) => {
         if (_.some(errors)) return res.status(400).send(errors)
         
         Company.findOne({ cnpj }, (err, company) => {
-            console.log(company)
             if (err) return errorHandler.handleMongoDBErrors(res, err)
     
             if (company) return res.status(400).send({ errors: ['O CNPJ já foi cadastrado para outra empresa.'] })

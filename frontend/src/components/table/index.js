@@ -11,8 +11,8 @@ const Table = ({ columns, lines }) => (
   <ReactTable responsive striped bordered condensed hover>
     <thead>
       <tr>
-        {columns.map((column, index) => (
-          <th key={index}>{column.description}</th>
+        {columns.map(column => (
+          <th key={column.key}>{column.description}</th>
         ))}
       </tr>
     </thead>

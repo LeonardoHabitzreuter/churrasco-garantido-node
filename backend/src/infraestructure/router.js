@@ -18,7 +18,8 @@ module.exports = server => {
     companiesService.CompanyModel.register(protectedApi, '/companies')
     server.use('/api/companies', companiesService.createCompany)
 
-    order.register(protectedApi, '/orders')
+    order.model.register(protectedApi, '/orders')
+    server.use('/api/orders', order.create)
 
     server.post('/login', AuthService.login)
     server.post('/signup', AuthService.signup)

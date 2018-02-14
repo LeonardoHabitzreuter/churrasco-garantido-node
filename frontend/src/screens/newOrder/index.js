@@ -5,7 +5,7 @@ import Table from 'components/table'
 import api from 'utils/api'
 import React, { PureComponent } from 'react'
 import { PageHeader, Label } from 'react-bootstrap'
-import { head } from 'lodash'
+import { head, some } from 'lodash'
 
 const InputGroup = ({ labelName, children }) => (
   <div className='col-sm-3'>
@@ -25,7 +25,7 @@ class NewOrder extends PureComponent {
     selectedCompany: null,
     selectedProduct: 0,
     productAmount: 1,
-    productsAdded: [{ product: 'Stella', amount: 5 }, { product: 'Budweiser', amount: 5 }]
+    productsAdded: []
   }
 
   componentDidMount () {
@@ -33,27 +33,27 @@ class NewOrder extends PureComponent {
       .get('companies')
       .then(response => {
         this.setState({
-          companies: response.data.map(company => company.name),
+          companies: response.data,
           selectedCompany: head(response.data) ? 0 : null
         })
       })
   }
 
   requestNewOrder () {
-    const { selectedCompany, productsAdded } = this.state
+    const { selectedCompany, productsAdded, companies } = this.state
     const messages = []
-    if (!selectedCompany) messages.push('Por favor, selecione uma empresa para qual você quer fazer o pedido.')
+    if (selectedCompany === null) messages.push('Por favor, selecione uma empresa para qual você quer fazer o pedido.')
     if (!head(productsAdded)) messages.push('Por favor, adicione produtos na lista.')
+    if (some(messages)) {
+      this.setState({ showErrorAlert: true, messages, messagesStyle: 'danger' })
+      return
+    }
 
     api
     .post('orders', {
       creator: api.getUser(),
-      company: '5a808c3c8fab410d0ac98897',
-      products: [{
-        name: 'Carvao'
-      }, {
-        name: 'Carvao'
-      }]
+      company: companies[selectedCompany]._id,
+      products: productsAdded.map(product => ({ name: product.product, amount: product.amount }))
     })
   }
 
@@ -74,6 +74,7 @@ class NewOrder extends PureComponent {
     }
     const oldProduct = this.getSameProductFromTable(productsAdded, selectedProduct)
 
+    // alterar lista por objeto, lembrar de criar um pr pro lodash
     const updatedProductsList = productsAdded.map(product => (
       product === oldProduct
       ? { ...product, amount: product.amount + +productAmount }
@@ -101,7 +102,7 @@ class NewOrder extends PureComponent {
             <DropDown
               id='companiesDropdown'
               selectedIndex={this.state.selectedCompany}
-              items={this.state.companies}
+              items={this.state.companies.map(company => company.name)}
               onChange={selectedCompany => this.setState({ selectedCompany })}
             />
           </InputGroup>
