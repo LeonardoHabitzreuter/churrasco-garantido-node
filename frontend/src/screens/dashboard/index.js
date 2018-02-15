@@ -30,7 +30,7 @@ class Dashboard extends PureComponent {
 
   componentDidMount () {
     api
-      .get('companies', { populate: 'orders' })
+      .get('companies', { populate: 'orders', creator: api.getUser() })
       .then(response => {
         this.setState({
           companies: response.data.map(company => ({

@@ -30,7 +30,7 @@ class NewOrder extends PureComponent {
 
   componentDidMount () {
     api
-      .get('companies')
+      .get('companies', { creator: api.getUser() })
       .then(response => {
         this.setState({
           companies: response.data,
@@ -51,7 +51,6 @@ class NewOrder extends PureComponent {
 
     api
       .post('orders', {
-        creator: api.getUser(),
         company: companies[selectedCompany]._id,
         products: productsAdded.map(product => ({ name: product.product, amount: product.amount }))
       })

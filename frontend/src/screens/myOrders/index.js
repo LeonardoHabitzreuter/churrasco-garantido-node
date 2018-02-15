@@ -1,7 +1,17 @@
 import Table from 'components/table'
+import Button from 'components/button'
 import api from 'utils/api'
 import React, { PureComponent } from 'react'
 import { PageHeader } from 'react-bootstrap'
+
+const cancelLink = onSelect => (
+  <Button
+    bsStyle='link'
+    onClick={() => onSelect()}
+  >
+    Cancelar
+  </Button>
+)
 
 let company = {
   id: '',
@@ -24,12 +34,28 @@ class MyOrders extends PureComponent {
     orders: []
   }
 
+  cancelOrder (orderId) {
+    console.log('cancel')
+    console.log(orderId)
+  }
+
   componentDidMount () {
     api
-      .get('orders')
+      .get('orders', { creator: api.getUser() })
       .then(response => {
+        console.log(response.data)
         this.setState({
-          orders: response.data
+          orders: response.data.map(order => ({
+            id: order._id,
+            code: order.code,
+            actions:
+              order.status === 'PENDING'
+              ? cancelLink(
+                  () => this.calcelOrder(order._id)
+              ) : (
+                'Cancelar'
+              )
+          }))
         })
       })
   }
@@ -39,7 +65,7 @@ class MyOrders extends PureComponent {
       <div className='col-sm-8'>
         <PageHeader>Meus pedidos - Empresa {company.name}</PageHeader>
         <Table
-          columns={[{ description: 'Código do pedido', key: 'code' }, { description: 'Quantidade', key: 'amount' }]}
+          columns={[{ description: 'Código do pedido', key: 'code' }, { description: 'Itens', key: 'products' }, { description: 'Ações', key: 'actions' }]}
           lines={this.state.orders}
         />
       </div>

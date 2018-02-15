@@ -10,7 +10,7 @@ module.exports = server => {
     const protectedApi = express.Router()
     server.use('/api', protectedApi)
 
-    protectedApi.use(auth)
+    protectedApi.use(auth.authenticate)
 
     userService.UserModel.register(protectedApi, '/users')
     server.use('/api/users/:id', userService.updateUser)

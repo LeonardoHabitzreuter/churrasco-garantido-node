@@ -3,13 +3,14 @@ const errorHandler = require('../../infraestructure/errorHandler')
 const _ = require('lodash')
 const cnpjValidator = require('../cnpjValidator')
 const getErrors = require('../entitiesFieldsValidator').getErrors
+const auth = require('../../infraestructure/auth')
 
 Company.methods(['get'])
 Company.updateOptions({new: true, runValidators: true})
 Company.after('put', errorHandler.handleNodeRestfulErrors)
 
-const saveCompany = ({ name, cnpj }, res) => {
-    Company.create({ name, cnpj }, saveErr => {
+const saveCompany = ({ name, cnpj, creator }, res) => {
+    Company.create({ name, cnpj, creator }, saveErr => {
         if (saveErr) return errorHandler.handleMongoDBErrors(res, saveErr)
 
         res.status(200).send()
@@ -19,7 +20,8 @@ const saveCompany = ({ name, cnpj }, res) => {
 const createCompany = (req, res, next) => {
     if (req.method === 'POST') {
         const { name, cnpj } = req.body
-        
+        const requestUser = auth.getRequestUserId(req.headers['authorization'])
+
         const errors = getErrors([{ name: 'nome', value: name, minLength: 4, maxLength: 30 }])
         if(!cnpjValidator.cnpjIsValid(cnpj.replace(/[^\d]+/g,''))) errors.push('O CNPJ é inválido.')
 
@@ -30,7 +32,7 @@ const createCompany = (req, res, next) => {
     
             if (company) return res.status(400).send({ errors: ['O CNPJ já foi cadastrado para outra empresa.'] })
 
-            saveCompany({ name, cnpj }, res)
+            saveCompany({ name, cnpj, creator: requestUser }, res)
         })
     } else {
         next()
