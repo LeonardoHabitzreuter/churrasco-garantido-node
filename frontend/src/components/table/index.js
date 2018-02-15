@@ -2,10 +2,14 @@ import React from 'react'
 import { Table as ReactTable } from 'react-bootstrap'
 import PropTypes from 'prop-types'
 
+const commonStyle = {
+  textAlign: 'center'
+}
+
 const Cell = ({ line, lineIndex, columnKey, ...rest }) => {
   const sameLineAsColumnKey = Object.keys(line).find(element => element === columnKey)
   const lineContentOrDefault = sameLineAsColumnKey ? line[sameLineAsColumnKey] : null
-  return <td {...rest}>{lineContentOrDefault}</td>
+  return <td style={commonStyle} {...rest}>{lineContentOrDefault}</td>
 }
 
 const Table = ({ columns, lines }) => (
@@ -13,7 +17,7 @@ const Table = ({ columns, lines }) => (
     <thead>
       <tr>
         {columns.map(column => (
-          <th key={column.key}>{column.description}</th>
+          <th style={commonStyle} key={column.key}>{column.description}</th>
         ))}
       </tr>
     </thead>

@@ -16,12 +16,16 @@ const amountLink = (productAmount, onSelect) => (
 
 class Dashboard extends PureComponent {
   state = {
-    companySelected: null,
+    selectedCompany: null,
     companies: []
   }
 
   goToMyOrdersPage (companyId) {
-    this.setState({ companySelected: companyId })
+    this.setState({ selectedCompany: this.state.companies.find(company => company.id === companyId) })
+  }
+
+  companyHasOrdersPending (company) {
+    return company.orders.some(order => order.status === 'PENDING')
   }
 
   componentDidMount () {
@@ -30,13 +34,17 @@ class Dashboard extends PureComponent {
       .then(response => {
         this.setState({
           companies: response.data.map(company => ({
-            ...company,
+            cnpj: company.cnpj,
+            name: company.name,
             id: company._id,
-            ordersQuantity: amountLink(
-              company.orders.length,
-              () => this.goToMyOrdersPage(company._id)
-            ),
-            hasOrdersPending: company.orders.some(order => order.status === 'PENDING')
+            ordersQuantity:
+              this.companyHasOrdersPending(company)
+              ? amountLink(
+                  company.orders.length,
+                  () => this.goToMyOrdersPage(company._id)
+              ) : (
+                company.orders.length
+              )
           }))
         })
       })
@@ -44,7 +52,7 @@ class Dashboard extends PureComponent {
 
   render () {
     return (
-      !this.state.companySelected ? (
+      !this.state.selectedCompany ? (
         <div className='col-sm-8'>
           <PageHeader>Minhas empresas</PageHeader>
           <Table
@@ -54,8 +62,11 @@ class Dashboard extends PureComponent {
         </div>
       ) : (
         <Redirect to={{
-          pathname: '/myOrders',
-          state: { teste: '1' }
+          pathname: 'myOrders',
+          state: {
+            companyName: this.state.selectedCompany.name,
+            companyId: this.state.selectedCompany.name
+          }
         }} />
       )
     )
