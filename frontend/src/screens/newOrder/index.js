@@ -50,11 +50,26 @@ class NewOrder extends PureComponent {
     }
 
     api
-    .post('orders', {
-      creator: api.getUser(),
-      company: companies[selectedCompany]._id,
-      products: productsAdded.map(product => ({ name: product.product, amount: product.amount }))
-    })
+      .post('orders', {
+        creator: api.getUser(),
+        company: companies[selectedCompany]._id,
+        products: productsAdded.map(product => ({ name: product.product, amount: product.amount }))
+      })
+      .then(() => {
+        this.setState({
+          messages: ['Pedido efetuado com sucesso'],
+          showErrorAlert: true,
+          messagesStyle: 'success',
+          productsAdded: []
+        })
+      })
+      .catch(e => {
+        this.setState({
+          messages: e.response ? e.response.data.errors : ['Aconteceu um erro ao tentar cadastrar a empresa, tente novamente'],
+          showErrorAlert: true,
+          messagesStyle: 'danger'
+        })
+      })
   }
 
   getSameProductFromTable (productsAdded, selectedProduct) {

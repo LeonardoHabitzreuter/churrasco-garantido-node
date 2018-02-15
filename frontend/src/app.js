@@ -7,6 +7,7 @@ import Logout from 'components/menu/logout'
 import MyAccount from './screens/myAccount'
 import RegisterCompany from './screens/registerCompany'
 import NewOrder from './screens/newOrder'
+import MyOrders from './screens/myOrders'
 
 const App = () => {
   return (
@@ -16,6 +17,7 @@ const App = () => {
         <PrivateRoute path='/dashboard' component={Dashboard} />
         <PrivateRoute path='/registerCompany' component={RegisterCompany} />
         <PrivateRoute path='/newOrder' component={NewOrder} />
+        <PrivateRoute path='/myOrders' component={MyOrders} />
         <PrivateRoute path='/myAccount' component={MyAccount} />
         <PrivateRoute path='/logout' component={Logout} />
       </Switch>

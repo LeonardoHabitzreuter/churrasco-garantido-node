@@ -16,7 +16,7 @@ class RegisterCompany extends PureComponent {
 
   saveCompany ({ name, cnpj }) {
     api
-        .post(`companies`, { name, cnpj })
+        .post(`companies`, { name, cnpj, creator: api.getUser() })
         .then(() => {
           this.setState({
             messages: ['Empresa cadastrada com sucesso!'],

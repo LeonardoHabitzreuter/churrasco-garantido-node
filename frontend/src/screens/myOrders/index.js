@@ -23,8 +23,8 @@ class MyOrders extends PureComponent {
 
   render () {
     return (
-      <div>
-        <PageHeader>Meus pedidos - Empresa</PageHeader>
+      <div className='col-sm-8'>
+        <PageHeader>Meus pedidos - Empresa {this.state.teste}</PageHeader>
         <Table
           columns={[{ description: 'Código do pedido', key: 'code' }, { description: 'Quantidade', key: 'amount' }]}
           lines={this.state.orders}

@@ -16,10 +16,6 @@ const getErrorsFromCreateRequest = ({ creator, company, products }) => {
     return errors
 }
 
-const getUserAndCompany = async (userId) => {
-    return {  }
-}
-
 const create = async (req, res, next) => {
     if (req.method === 'POST') {
         const { creator, company, products } = req.body
@@ -36,7 +32,7 @@ const create = async (req, res, next) => {
             if (err) return errorHandler.handleMongoDBErrors(res, err)
 
             user.set({ orders: [ ...user.orders, order ] }).save()
-            companyFromDB.set({ orders: [ ...user.orders, order ] }).save()
+            companyFromDB.set({ orders: [ ...companyFromDB.orders, order ] }).save()
 
             res.status(200).send()
         })

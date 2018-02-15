@@ -3,10 +3,11 @@ import { Table as ReactTable } from 'react-bootstrap'
 import PropTypes from 'prop-types'
 
 const Cell = ({ line, lineIndex, columnKey, ...rest }) => {
-  const linePropertyEqualsColumnKey = Object.keys(line).find(element => element === columnKey)
-  return <td {...rest}>{linePropertyEqualsColumnKey ? line[linePropertyEqualsColumnKey] : ''}</td>
+  const sameLineAsColumnKey = Object.keys(line).find(element => element === columnKey)
+  const lineContentOrDefault = sameLineAsColumnKey ? line[sameLineAsColumnKey] : null
+  return <td {...rest}>{lineContentOrDefault}</td>
 }
-// ToDo alterar maps por index
+
 const Table = ({ columns, lines }) => (
   <ReactTable responsive striped bordered condensed hover>
     <thead>
@@ -18,7 +19,7 @@ const Table = ({ columns, lines }) => (
     </thead>
     <tbody>
       {lines.map((line, index) => (
-        <tr key={index}>
+        <tr key={line.id || index}>
           {columns.map((column, columnIndex) => <Cell key={columnIndex} line={line} lineIndex={index} columnKey={column.key} />)}
         </tr>
       ))}
