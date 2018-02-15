@@ -4,13 +4,21 @@ import api from 'utils/api'
 import React, { PureComponent } from 'react'
 import { PageHeader } from 'react-bootstrap'
 
-const cancelLink = onSelect => (
+const CancelLink = onSelect => (
   <Button
     bsStyle='link'
     onClick={() => onSelect()}
   >
     Cancelar
   </Button>
+)
+
+const ProductsList = products => (
+  <div className='text'>
+    {products.map(product => (
+      <p key={product._id}>{product.amount}x {product.name}</p>
+    ))}
+  </div>
 )
 
 let company = {
@@ -48,9 +56,10 @@ class MyOrders extends PureComponent {
           orders: response.data.map(order => ({
             id: order._id,
             code: order.code,
+            products: ProductsList(order.products),
             actions:
               order.status === 'PENDING'
-              ? cancelLink(
+              ? CancelLink(
                   () => this.calcelOrder(order._id)
               ) : (
                 'Cancelar'
