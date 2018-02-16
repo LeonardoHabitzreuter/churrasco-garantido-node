@@ -110,10 +110,13 @@ class MyOrders extends Component {
     }))
   }
 
+  // filtro feito em memória pelo fato do usuário só ver as suas empresas.
+  // O mesmo poderia ser feito via requisição REST passando como querystring o seguinte Regex:
+  // code__regex=/974(codigo do pedido tem que conter 974 para satisfazer a consulta)
   filter () {
-    if (!this.state.orderCode && !this.state.companyCNPJ) return
+    if (!this.state.orderCode && !this.state.companyCNPJ) return this.setState({ orders: this.state.allOrders })
 
-    const fieldMatchFilter = (filter, field) => filter && field.includes(filter)
+    const fieldMatchFilter = (filter, field) => !filter || field.toString().includes(filter)
 
     this.setState({ orders: this.state.allOrders.filter(order => {
       return fieldMatchFilter(this.state.orderCode, order.code) && fieldMatchFilter(this.state.companyCNPJ, order.company.cnpj)
