@@ -1,4 +1,5 @@
 import Table from 'components/table'
+import Alert from 'components/alert'
 import Button from 'components/button'
 import api from 'utils/api'
 import React, { PureComponent } from 'react'
@@ -16,6 +17,9 @@ const AmountLink = (productAmount, onSelect) => (
 
 class Dashboard extends PureComponent {
   state = {
+    showErrorAlert: false,
+    messages: [],
+    messagesStyle: '',
     selectedCompany: null,
     companies: []
   }
@@ -48,6 +52,13 @@ class Dashboard extends PureComponent {
           }))
         })
       })
+      .catch(e => {
+        this.setState({
+          messages: ['Aconteceu um erro ao buscar as empresas'],
+          showErrorAlert: true,
+          messagesStyle: 'danger'
+        })
+      })
   }
 
   render () {
@@ -55,6 +66,12 @@ class Dashboard extends PureComponent {
       !this.state.selectedCompany ? (
         <div className='col-sm-8'>
           <PageHeader>Minhas empresas</PageHeader>
+          <Alert
+            show={this.state.showErrorAlert}
+            style={this.state.messagesStyle}
+            handleDismiss={() => this.setState({ showErrorAlert: false })}
+            messages={this.state.messages}
+          />
           <Table
             columns={[{ description: 'Nome fantasia', key: 'name' }, { description: 'CNPJ', key: 'cnpj' }, { description: 'QTD pedidos', key: 'ordersQuantity' }]}
             lines={this.state.companies}

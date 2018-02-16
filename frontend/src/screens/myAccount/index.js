@@ -27,6 +27,13 @@ class MyAccount extends PureComponent {
           this.id = id
         })
       })
+      .catch(e => {
+        this.setState({
+          messages: ['Aconteceu um erro ao buscar as informações do seu cadastro'],
+          showErrorAlert: true,
+          messagesStyle: 'danger'
+        })
+      })
   }
 
   saveUser ({ name, email, password, confirmPassword }) {

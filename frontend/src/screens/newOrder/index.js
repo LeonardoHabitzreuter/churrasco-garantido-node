@@ -37,6 +37,13 @@ class NewOrder extends PureComponent {
           selectedCompany: head(response.data) ? 0 : null
         })
       })
+      .catch(e => {
+        this.setState({
+          messages: ['Aconteceu um erro ao buscar as empresas'],
+          showErrorAlert: true,
+          messagesStyle: 'danger'
+        })
+      })
   }
 
   requestNewOrder () {
