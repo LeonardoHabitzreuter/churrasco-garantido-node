@@ -65,7 +65,7 @@ class Dashboard extends PureComponent {
           pathname: 'myOrders',
           state: {
             companyName: this.state.selectedCompany.name,
-            companyId: this.state.selectedCompany.name
+            companyId: this.state.selectedCompany.id
           }
         }} />
       )

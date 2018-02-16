@@ -6,13 +6,13 @@ export default props => (
     <Navbar inverse collapseOnSelect>
       <Navbar.Header>
         <Navbar.Brand>
-          <a href='/dashboard'>Empresas com Churrasco Garantido</a>
+          <a href='/'>Empresas com Churrasco Garantido</a>
         </Navbar.Brand>
         <Navbar.Toggle />
       </Navbar.Header>
       <Navbar.Collapse>
         <Nav>
-          <NavItem eventKey={1} href='dashboard'>
+          <NavItem eventKey={1} href='/'>
               Dashboard
           </NavItem>
           <NavItem eventKey={1} href='registerCompany'>
@@ -21,11 +21,11 @@ export default props => (
           <NavItem eventKey={1} href='newOrder'>
               Novo pedido
           </NavItem>
-          <NavItem eventKey={1} href='myAccount'>
-              Minha conta
-          </NavItem>
           <NavItem eventKey={1} href='myOrders'>
               Meus pedidos
+          </NavItem>
+          <NavItem eventKey={1} href='myAccount'>
+              Minha conta
           </NavItem>
           <NavItem eventKey={2} href='logout'>
               Sair

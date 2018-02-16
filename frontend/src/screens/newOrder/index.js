@@ -14,7 +14,7 @@ const InputGroup = ({ labelName, children }) => (
   </div>
 )
 
-const PRODUCTS = ['Stella', 'Budweiser', 'Skol']
+const PRODUCTS = ['Cerveja', 'Carne', 'Pão de alho', 'Refrigerante', 'Guardanapo', 'Carvão', 'Alcool', 'Churrasqueira']
 
 class NewOrder extends PureComponent {
   state = {

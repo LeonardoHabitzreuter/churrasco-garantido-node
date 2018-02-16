@@ -13,7 +13,7 @@ class Login extends PureComponent {
   redirectToIndex () {
     const { history } = this.props
 
-    history.push('/dashboard')
+    history.push('/')
   }
 
   render () {

@@ -14,12 +14,12 @@ const App = () => {
     <Router>
       <Switch>
         <Route path='/login' component={Login} />
-        <PrivateRoute path='/dashboard' component={Dashboard} />
         <PrivateRoute path='/registerCompany' component={RegisterCompany} />
         <PrivateRoute path='/newOrder' component={NewOrder} />
         <PrivateRoute path='/myOrders' component={MyOrders} />
         <PrivateRoute path='/myAccount' component={MyAccount} />
         <PrivateRoute path='/logout' component={Logout} />
+        <PrivateRoute path='/' component={Dashboard} />
       </Switch>
     </Router>
   )

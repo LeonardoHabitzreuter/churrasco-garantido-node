@@ -2,7 +2,7 @@ import Table from 'components/table'
 import Alert from 'components/alert'
 import Button from 'components/button'
 import api from 'utils/api'
-import React, { PureComponent } from 'react'
+import React, { Component } from 'react'
 import { PageHeader, Label } from 'react-bootstrap'
 
 const CancelLink = onSelect => (
@@ -22,17 +22,17 @@ const ProductsList = products => (
   </div>
 )
 
-let company = {
-  id: '',
-  name: ''
-}
+let company = null
 
-class MyOrders extends PureComponent {
+class MyOrders extends Component {
   constructor (props) {
     super(props)
-    company = {
-      id: props.location.state.companyId,
-      name: props.location.state.companyName
+    const redirectedFromAnotherPage = !!props.location.state
+    if (redirectedFromAnotherPage) {
+      company = {
+        id: props.location.state.companyId,
+        name: props.location.state.companyName
+      }
     }
   }
 
@@ -42,18 +42,20 @@ class MyOrders extends PureComponent {
     messagesStyle: '',
     companyCNPJ: '',
     orderCode: '',
+    allOrders: [],
     orders: []
   }
 
-  componentDidMounts () {
-    const filters = company.id
-      ? { creator: api.getUser(), company: company.id }
-      : { creator: api.getUser() }
+  componentDidMount () {
+    const filters = !company
+      ? { creator: api.getUser(), populate: 'company' }
+      : { creator: api.getUser(), populate: 'company', company: company.id }
 
     api
       .get('orders', filters)
       .then(response => {
         this.setState({
+          allOrders: response.data,
           orders: response.data
         })
       })
@@ -108,10 +110,20 @@ class MyOrders extends PureComponent {
     }))
   }
 
+  filter () {
+    if (!this.state.orderCode && !this.state.companyCNPJ) return
+
+    const fieldMatchFilter = (filter, field) => filter && field.includes(filter)
+
+    this.setState({ orders: this.state.allOrders.filter(order => {
+      return fieldMatchFilter(this.state.orderCode, order.code) && fieldMatchFilter(this.state.companyCNPJ, order.company.cnpj)
+    })})
+  }
+
   render () {
     return (
       <div className='col-sm-8' style={({ display: 'inline-grid' })} >
-        <PageHeader>Meus pedidos{company.name ? ` - Empresa ${company.name}` : ''}</PageHeader>
+        <PageHeader>Meus pedidos{company ? ` - Empresa ${company.name}` : ''}</PageHeader>
         <Alert
           show={this.state.showAlert}
           style={this.state.messagesStyle}
@@ -119,15 +131,18 @@ class MyOrders extends PureComponent {
           messages={this.state.messages}
         />
         <div>
-          <div className='col-sm-4'>
-            <h3><Label>CNPJ</Label></h3>
-            <input
-              type='text'
-              value={this.state.companyCNPJ}
-              min='1'
-              onChange={e => this.setState({ companyCNPJ: e.target.value })}
-            />
-          </div>
+          {
+            !company &&
+            <div className='col-sm-4'>
+              <h3><Label>CNPJ</Label></h3>
+              <input
+                type='text'
+                value={this.state.companyCNPJ}
+                min='1'
+                onChange={e => this.setState({ companyCNPJ: e.target.value })}
+              />
+            </div>
+          }
           <div className='col-sm-4'>
             <h3><Label>Pedido</Label></h3>
             <input
