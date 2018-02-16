@@ -6,8 +6,6 @@ const getErrors = require('../entitiesFieldsValidator').getErrors
 const auth = require('../../infraestructure/auth')
 
 Company.methods(['get'])
-Company.updateOptions({new: true, runValidators: true})
-Company.after('put', errorHandler.handleNodeRestfulErrors)
 
 const saveCompany = ({ name, cnpj, creator }, res) => {
     Company.create({ name, cnpj, creator }, saveErr => {
@@ -19,11 +17,12 @@ const saveCompany = ({ name, cnpj, creator }, res) => {
 
 const createCompany = (req, res, next) => {
     if (req.method === 'POST') {
-        const { name, cnpj } = req.body
+        const { name } = req.body
+        const cnpj = req.body.cnpj.replace(/[^\d]+/g,'')
         const requestUser = auth.getRequestUserId(req.headers['authorization'])
 
         const errors = getErrors([{ name: 'nome', value: name, minLength: 4, maxLength: 30 }])
-        if(!cnpjValidator.cnpjIsValid(cnpj.replace(/[^\d]+/g,''))) errors.push('O CNPJ é inválido.')
+        if(!cnpjValidator.cnpjIsValid(cnpj)) errors.push('O CNPJ é inválido.')
 
         if (_.some(errors)) return res.status(400).send(errors)
         
