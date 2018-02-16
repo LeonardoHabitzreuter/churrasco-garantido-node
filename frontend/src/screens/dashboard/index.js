@@ -5,7 +5,7 @@ import React, { PureComponent } from 'react'
 import { PageHeader } from 'react-bootstrap'
 import { Redirect } from 'react-router-dom'
 
-const amountLink = (productAmount, onSelect) => (
+const AmountLink = (productAmount, onSelect) => (
   <Button
     bsStyle='link'
     onClick={() => onSelect()}
@@ -39,7 +39,7 @@ class Dashboard extends PureComponent {
             id: company._id,
             ordersQuantity:
               this.companyHasOrdersPending(company)
-              ? amountLink(
+              ? AmountLink(
                   company.orders.length,
                   () => this.goToMyOrdersPage(company._id)
               ) : (
