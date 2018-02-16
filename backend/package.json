@@ -4,7 +4,7 @@
   "description": "backend do teste técnico da taller",
   "main": "src/index.js",
   "scripts": {
-    "test": "nyc mocha tests/**/*.js",
+    "test": "nyc mocha tests/**/*.tests.js",
     "test:dev": "mocha tests/**/*.tests.js --watch",
     "prepush": "npm test",
     "start": "pm2 start configs/appConfigs.json",
