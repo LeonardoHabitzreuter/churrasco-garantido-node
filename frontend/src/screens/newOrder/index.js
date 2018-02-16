@@ -91,7 +91,7 @@ class NewOrder extends PureComponent {
     // alterar lista por objeto, lembrar de criar um pr pro lodash
     const updatedProductsList = productsAdded.map(product => (
       product === oldProduct
-      ? { ...product, amount: product.amount + +productAmount }
+      ? { ...product, amount: +product.amount + +productAmount }
       : product
       )
     )
