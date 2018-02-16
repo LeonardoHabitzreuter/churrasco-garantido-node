@@ -3,7 +3,7 @@ import Alert from 'components/alert'
 import Button from 'components/button'
 import api from 'utils/api'
 import React, { PureComponent } from 'react'
-import { PageHeader } from 'react-bootstrap'
+import { PageHeader, Label } from 'react-bootstrap'
 
 const CancelLink = onSelect => (
   <Button
@@ -40,17 +40,28 @@ class MyOrders extends PureComponent {
     showAlert: false,
     messages: [],
     messagesStyle: '',
+    companyCNPJ: '',
+    orderCode: '',
     orders: []
   }
 
-  componentDidMount () {
+  componentDidMounts () {
+    const filters = company.id
+      ? { creator: api.getUser(), company: company.id }
+      : { creator: api.getUser() }
+
     api
-      .get('orders', { creator: api.getUser() })
+      .get('orders', filters)
       .then(response => {
         this.setState({
           orders: response.data
         })
       })
+      .catch(() => this.setState({
+        messages: ['Aconteceu um erro ao buscar os pedidos desta empresa, tente novamente'],
+        showAlert: true,
+        messagesStyle: 'danger'
+      }))
   }
 
   modifyOrderInList (orderToModify) {
@@ -99,18 +110,49 @@ class MyOrders extends PureComponent {
 
   render () {
     return (
-      <div className='col-sm-8'>
-        <PageHeader>Meus pedidos - Empresa {company.name}</PageHeader>
+      <div className='col-sm-8' style={({ display: 'inline-grid' })} >
+        <PageHeader>Meus pedidos{company.name ? ` - Empresa ${company.name}` : ''}</PageHeader>
         <Alert
           show={this.state.showAlert}
           style={this.state.messagesStyle}
           handleDismiss={() => this.setState({ showAlert: false })}
           messages={this.state.messages}
         />
-        <Table
-          columns={[{ description: 'Código do pedido', key: 'code' }, { description: 'Itens', key: 'products' }, { description: 'Ações', key: 'actions' }]}
-          lines={this.getOrdersToMountTable()}
-        />
+        <div>
+          <div className='col-sm-4'>
+            <h3><Label>CNPJ</Label></h3>
+            <input
+              type='text'
+              value={this.state.companyCNPJ}
+              min='1'
+              onChange={e => this.setState({ companyCNPJ: e.target.value })}
+            />
+          </div>
+          <div className='col-sm-4'>
+            <h3><Label>Pedido</Label></h3>
+            <input
+              type='text'
+              value={this.state.orderCode}
+              min='1'
+              onChange={e => this.setState({ orderCode: e.target.value })}
+            />
+          </div>
+          <div className='col-sm-4'>
+            <h3><Label>Açoes</Label></h3>
+            <Button
+              onClick={() => this.filter()}
+              type='button'
+            >
+            Filtrar
+            </Button>
+          </div>
+        </div>
+        <div style={({ paddingTop: '5rem' })} >
+          <Table
+            columns={[{ description: 'Código do pedido', key: 'code' }, { description: 'Itens', key: 'products' }, { description: 'Ações', key: 'actions' }]}
+            lines={this.getOrdersToMountTable()}
+          />
+        </div>
       </div>
     )
   }

@@ -24,6 +24,9 @@ export default props => (
           <NavItem eventKey={1} href='myAccount'>
               Minha conta
           </NavItem>
+          <NavItem eventKey={1} href='myOrders'>
+              Meus pedidos
+          </NavItem>
           <NavItem eventKey={2} href='logout'>
               Sair
           </NavItem>
