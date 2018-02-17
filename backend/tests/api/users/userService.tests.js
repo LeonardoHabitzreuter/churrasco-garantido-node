@@ -5,21 +5,36 @@ const sinonChai = require('sinon-chai')
 chai.use(sinonChai)
 const bcrypt = require('bcrypt')
 const salt = bcrypt.genSaltSync()
+const Test_Token = require('../../configs').testToken
 
 const User = require('../../../src/api/users/users')
 const userService = require('../../../src/api/users/userService')
+const request = require('supertest')
+const server = require('../../../src/infraestructure/server')
+require('../../../src/infraestructure/router')(server)
 
 describe('userService', () => {
-    let findOneStub
+    let updateStub
+    let userFindOne
 
     beforeEach(() => {
-        findOneStub = sinon.stub(User, 'findOne').callsFake((query, callback) => { callback(null, null) })
+        updateStub = sinon.stub(User, 'update').callsFake((query, entity, callback) => { callback(null) })
+        userFindOne = sinon.stub(User, 'findOne').callsFake((query, callback) => {
+            callback(null, {
+                id: '1',
+                name: 'Leonardo Habitzreuter',
+                email: 'leo.habitzreuter@gmail.com',
+                password: 'senhaAntiga1234',
+                confirmPassword: 'senhaAntiga1234'
+            })
+        })
     })
 
     afterEach(() => {
-        findOneStub.restore()
+        updateStub.restore()
+        userFindOne.restore()
     })
-
+    
     context('user validation', () => {
         let callback
 
@@ -72,18 +87,11 @@ describe('userService', () => {
         })
     })
 
-    context.skip('user requests', () => {
-        const request = require('supertest')
-        const server = require('../../../src/infraestructure/server')
-        require('../../../src/infraestructure/router')(server)
-        
-        let updateStub = sinon.stub(User, 'update')
-
-        it('should update the user with a hash of the password receveid from the body', () => {
-            const passwordHash = bcrypt.hashSync('teste1234', salt)
-
+    context('user requests', () => {
+        it('should update the user with a hash of the password receveid from the body', done => {
             request(server)
-                .put('/users/1')
+                .put('/api/users/1')
+                .set('Authorization', Test_Token)
                 .send({
                     name: 'Leonardo Habitzreuter',
                     email: 'leo.habitzreuter@gmail.com',
@@ -92,16 +100,15 @@ describe('userService', () => {
                 })
                 .expect(200)
                 .end((err, res) => {
-                    if (err) throw err
-
-                    expect(updateStub).to.have.been.calledWith({ _id: '1' }, { $set: {
+                    expect(err).to.be.null
+                    expect(updateStub).to.have.been.calledOnce
+                    expect(updateStub).to.not.have.been.calledWith({ _id: '1' }, { $set: {
                         name: 'Leonardo Habitzreuter',
                         email: 'leo.habitzreuter@gmail.com',
-                        password: passwordHash
+                        password: 'teste1234'
                     }})
+                    done()
                 })
-            
-            updateStub.restore()
         })
     })
 })

@@ -31,7 +31,7 @@ const updateUser = (req, res, next) => {
     }
 }
 
-const getValidationErrors = ({ id= null, name, email, password, passwordHash, confirmPassword }, callback) => {
+const getValidationErrors = ({ id = null, name, email, password, passwordHash, confirmPassword }, callback) => {
     const errors = getErrors([
         { name: 'senha', value: password, minLength: 6, maxLength: 20 },
         { name: 'nome', value: name, minLength: 6 }

@@ -4,14 +4,13 @@ const chai = require('chai')
 const {expect} = chai
 const sinonChai = require('sinon-chai')
 chai.use(sinonChai)
+const Test_Token = require('../../configs').testToken
 
 const server = require('../../../src/infraestructure/server')
 require('../../../src/infraestructure/router')(server)
 const Company = require('../../../src/api/companies/company')
 
-const Test_Token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVhODRhZDlmNjBkNDk3MjNjNzhlNDM0YSIsImlhdCI6MTUxODgxODQ2MiwiZXhwIjoxNTE4ODQwMDYyfQ.yUkOPKBDTIaVxTUNlzycJrhRlRBbuco8YKkOxqhpghQ'
-
-describe.only('companiesRequests', () => {
+describe('companiesRequests', () => {
     let createStub
     let findOneStub
 
@@ -37,8 +36,8 @@ describe.only('companiesRequests', () => {
             .end((err, res) => {
                 expect(err).to.be.null
                 expect(createStub).to.not.have.been.called
-                done()
                 expect(res.text).to.eql('{"errors":["O CNPJ já foi cadastrado para outra empresa."]}')
+                done()
             })
     })
 })
