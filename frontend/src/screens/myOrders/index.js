@@ -4,6 +4,7 @@ import Button from 'components/button'
 import api from 'utils/api'
 import React, { Component } from 'react'
 import { PageHeader, Label } from 'react-bootstrap'
+import Loader from 'components/loader'
 
 const CancelLink = onSelect => (
   <Button
@@ -37,6 +38,7 @@ class MyOrders extends Component {
   }
 
   state = {
+    showLoader: false,
     showAlert: false,
     messages: [],
     messagesStyle: '',
@@ -47,6 +49,7 @@ class MyOrders extends Component {
   }
 
   componentDidMount () {
+    this.setState({ showLoader: true })
     const filters = !company
       ? { creator: api.getUser(), populate: 'company' }
       : { creator: api.getUser(), populate: 'company', company: company.id }
@@ -55,11 +58,13 @@ class MyOrders extends Component {
       .get('orders', filters)
       .then(response => {
         this.setState({
+          showLoader: false,
           allOrders: response.data,
           orders: response.data
         })
       })
       .catch(() => this.setState({
+        showLoader: false,
         messages: ['Aconteceu um erro ao buscar os pedidos desta empresa, tente novamente'],
         showAlert: true,
         messagesStyle: 'danger'
@@ -75,11 +80,13 @@ class MyOrders extends Component {
   }
 
   cancelOrder (order) {
+    this.setState({ showLoader: true })
     const updatedOrder = { ...order, status: 'FINISHED' }
     api
       .put(`orders/${order._id}`, updatedOrder)
       .then(() => {
         this.setState({
+          showLoader: false,
           messages: ['Ordem cancelada com sucesso!'],
           showAlert: true,
           messagesStyle: 'success',
@@ -88,6 +95,7 @@ class MyOrders extends Component {
       })
       .catch(e => {
         this.setState({
+          showLoader: false,
           messages: e.response ? e.response.data.errors : ['Aconteceu um erro cancelar a ordem, tente novamente'],
           showAlert: true,
           messagesStyle: 'danger'
@@ -127,6 +135,7 @@ class MyOrders extends Component {
     return (
       <div className='col-sm-8' style={({ display: 'inline-grid' })} >
         <PageHeader>Meus pedidos{company ? ` - Empresa ${company.name}` : ''}</PageHeader>
+        <Loader loading={this.state.showLoader} />
         <Alert
           show={this.state.showAlert}
           style={this.state.messagesStyle}

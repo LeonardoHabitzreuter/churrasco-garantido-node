@@ -1,6 +1,7 @@
 import Table from 'components/table'
 import Alert from 'components/alert'
 import Button from 'components/button'
+import Loader from 'components/loader'
 import api from 'utils/api'
 import React, { PureComponent } from 'react'
 import { PageHeader } from 'react-bootstrap'
@@ -17,6 +18,7 @@ const AmountLink = (productAmount, onSelect) => (
 
 class Dashboard extends PureComponent {
   state = {
+    showLoader: false,
     showErrorAlert: false,
     messages: [],
     messagesStyle: '',
@@ -33,10 +35,12 @@ class Dashboard extends PureComponent {
   }
 
   componentDidMount () {
+    this.setState({ showLoader: true })
     api
       .get('companies', { populate: 'orders', creator: api.getUser() })
       .then(response => {
         this.setState({
+          showLoader: false,
           companies: response.data.map(company => ({
             cnpj: company.cnpj,
             name: company.name,
@@ -54,6 +58,7 @@ class Dashboard extends PureComponent {
       })
       .catch(e => {
         this.setState({
+          showLoader: false,
           messages: ['Aconteceu um erro ao buscar as empresas'],
           showErrorAlert: true,
           messagesStyle: 'danger'
@@ -66,6 +71,7 @@ class Dashboard extends PureComponent {
       !this.state.selectedCompany ? (
         <div className='col-sm-8'>
           <PageHeader>Minhas empresas</PageHeader>
+          <Loader loading={this.state.showLoader} />
           <Alert
             show={this.state.showErrorAlert}
             style={this.state.messagesStyle}

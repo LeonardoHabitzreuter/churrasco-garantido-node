@@ -3,9 +3,11 @@ import Form from 'components/form'
 import { PageHeader } from 'react-bootstrap'
 import React, {PureComponent} from 'react'
 import api from 'utils/api'
+import Loader from 'components/loader'
 
 class MyAccount extends PureComponent {
   state = {
+    showLoader: false,
     showErrorAlert: false,
     messages: [],
     messagesStyle: '',
@@ -16,11 +18,13 @@ class MyAccount extends PureComponent {
   }
 
   componentDidMount () {
+    this.setState({ showLoader: true })
     api
       .get(`users/${api.getUser()}`)
       .then(response => {
         const { _id: id, name, email } = response.data
         this.setState({
+          showLoader: false,
           name,
           email
         }, () => {
@@ -29,6 +33,7 @@ class MyAccount extends PureComponent {
       })
       .catch(e => {
         this.setState({
+          showLoader: false,
           messages: ['Aconteceu um erro ao buscar as informações do seu cadastro'],
           showErrorAlert: true,
           messagesStyle: 'danger'
@@ -37,10 +42,12 @@ class MyAccount extends PureComponent {
   }
 
   saveUser ({ name, email, password, confirmPassword }) {
+    this.setState({ showLoader: true })
     api
         .put(`users/${this.id}`, { name, email, password, confirmPassword })
         .then(() => {
           this.setState({
+            showLoader: false,
             messages: ['Dados atualizados com sucesso!'],
             showErrorAlert: true,
             messagesStyle: 'success',
@@ -50,6 +57,7 @@ class MyAccount extends PureComponent {
         })
         .catch(e => {
           this.setState({
+            showLoader: false,
             messages: e.response ? e.response.data.errors : ['Aconteceu um erro na atualização dos dados, tente novamente'],
             showErrorAlert: true,
             messagesStyle: 'danger'
@@ -61,6 +69,7 @@ class MyAccount extends PureComponent {
     return (
       <div className='col-sm-8'>
         <PageHeader>Minha conta</PageHeader>
+        <Loader loading={this.state.showLoader} />
         <Alert
           show={this.state.showErrorAlert}
           style={this.state.messagesStyle}

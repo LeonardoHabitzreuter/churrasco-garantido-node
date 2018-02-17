@@ -6,6 +6,7 @@ import api from 'utils/api'
 import React, { PureComponent } from 'react'
 import { PageHeader, Label } from 'react-bootstrap'
 import { head, some } from 'lodash'
+import Loader from 'components/loader'
 
 const InputGroup = ({ labelName, children }) => (
   <div className='col-sm-3'>
@@ -18,6 +19,7 @@ const PRODUCTS = ['Cerveja', 'Carne', 'Pão de alho', 'Refrigerante', 'Guardanap
 
 class NewOrder extends PureComponent {
   state = {
+    showLoader: false,
     showErrorAlert: false,
     messages: [],
     messagesStyle: '',
@@ -29,16 +31,19 @@ class NewOrder extends PureComponent {
   }
 
   componentDidMount () {
+    this.setState({ showLoader: true })
     api
       .get('companies', { creator: api.getUser() })
       .then(response => {
         this.setState({
+          showLoader: false,
           companies: response.data,
           selectedCompany: head(response.data) ? 0 : null
         })
       })
       .catch(e => {
         this.setState({
+          showLoader: false,
           messages: ['Aconteceu um erro ao buscar as empresas'],
           showErrorAlert: true,
           messagesStyle: 'danger'
@@ -56,6 +61,7 @@ class NewOrder extends PureComponent {
       return
     }
 
+    this.setState({ showLoader: true })
     api
       .post('orders', {
         company: companies[selectedCompany]._id,
@@ -63,6 +69,7 @@ class NewOrder extends PureComponent {
       })
       .then(() => {
         this.setState({
+          showLoader: false,
           messages: ['Pedido efetuado com sucesso'],
           showErrorAlert: true,
           messagesStyle: 'success',
@@ -71,6 +78,7 @@ class NewOrder extends PureComponent {
       })
       .catch(e => {
         this.setState({
+          showLoader: false,
           messages: e.response ? e.response.data.errors : ['Aconteceu um erro ao tentar cadastrar a empresa, tente novamente'],
           showErrorAlert: true,
           messagesStyle: 'danger'
@@ -112,6 +120,7 @@ class NewOrder extends PureComponent {
     return (
       <div className='col-sm-8 full-width' style={({ display: 'inline-grid' })} >
         <PageHeader>Novo pedido</PageHeader>
+        <Loader loading={this.state.showLoader} />
         <Alert
           show={this.state.showErrorAlert}
           style={this.state.messagesStyle}

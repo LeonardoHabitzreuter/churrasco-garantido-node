@@ -4,9 +4,11 @@ import { PageHeader } from 'react-bootstrap'
 import React, {PureComponent} from 'react'
 import api from 'utils/api'
 import cnpjValid from 'utils/cnpjValidator'
+import Loader from 'components/loader'
 
 class RegisterCompany extends PureComponent {
   state = {
+    showLoader: false,
     showErrorAlert: false,
     messages: [],
     messagesStyle: '',
@@ -15,10 +17,12 @@ class RegisterCompany extends PureComponent {
   }
 
   saveCompany ({ name, cnpj }) {
+    this.setState({ showLoader: true })
     api
         .post(`companies`, { name, cnpj })
         .then(() => {
           this.setState({
+            showLoader: false,
             messages: ['Empresa cadastrada com sucesso!'],
             showErrorAlert: true,
             messagesStyle: 'success',
@@ -28,6 +32,7 @@ class RegisterCompany extends PureComponent {
         })
         .catch(e => {
           this.setState({
+            showLoader: false,
             messages: e.response ? e.response.data.errors : ['Aconteceu um erro ao tentar cadastrar a empresa, tente novamente'],
             showErrorAlert: true,
             messagesStyle: 'danger',
@@ -41,6 +46,7 @@ class RegisterCompany extends PureComponent {
     return (
       <div className='col-sm-8'>
         <PageHeader>Cadastrar empresa</PageHeader>
+        <Loader loading={this.state.showLoader} />
         <Alert
           show={this.state.showErrorAlert}
           style={this.state.messagesStyle}
