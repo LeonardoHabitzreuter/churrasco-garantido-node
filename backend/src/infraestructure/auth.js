@@ -1,8 +1,11 @@
 const jwt = require('jsonwebtoken')
 const env = require('../.env')
+const authSecret = env ? env.authSecret : process.env.authSecret
+
+const getTestToken = () => jwt.sign({id: '5a84ad9f60d49723c78e434a'}, authSecret, { expiresIn: '1h' })
 
 const getRequestUserId = token => {
-    var teste = jwt.verify(token, env.authSecret)
+    var teste = jwt.verify(token, authSecret)
     return teste.id
 }
 
@@ -13,7 +16,7 @@ const verifyToken = (req, res, next) => {
 
     if (!token) return res.status(403).send({ errors: ['No token provided.'] })
 
-    jwt.verify(token, env.authSecret, (err, decoded) => {
+    jwt.verify(token, authSecret, (err, decoded) => {
         err
            ? returnTokenInvalid()
            : next() 
@@ -26,5 +29,6 @@ module.exports = {
             ? next()
             : verifyToken(req, res, next)
     },
-    getRequestUserId
+    getRequestUserId,
+    getTestToken
 }

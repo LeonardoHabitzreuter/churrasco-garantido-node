@@ -4,7 +4,7 @@ const chai = require('chai')
 const {expect} = chai
 const sinonChai = require('sinon-chai')
 chai.use(sinonChai)
-const Test_Token = require('../../configs').testToken
+const Test_Token = require('../../../src/infraestructure/auth').getTestToken()
 
 const server = require('../../../src/infraestructure/server')
 require('../../../src/infraestructure/router')(server)

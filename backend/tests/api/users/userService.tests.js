@@ -5,7 +5,7 @@ const sinonChai = require('sinon-chai')
 chai.use(sinonChai)
 const bcrypt = require('bcrypt')
 const salt = bcrypt.genSaltSync()
-const Test_Token = require('../../configs').testToken
+const Test_Token = require('../../../src/infraestructure/auth').getTestToken()
 
 const User = require('../../../src/api/users/users')
 const userService = require('../../../src/api/users/userService')
