@@ -4,10 +4,13 @@ const paths = {
   root: join(__dirname, '..'),
   src: join(__dirname, '..', 'src'),
   dist: join(__dirname, '..', 'dist'),
-  public: join(__dirname, '..', 'public')
+  public: join(__dirname, '..', 'public'),
+  modules: join(__dirname, '..', 'node_modules')
 }
 
 module.exports = {
+  paths,
+
   entry: {
     main: join(paths.src, 'index')
   },
@@ -24,30 +27,14 @@ module.exports = {
 
   jsLoader: {
     test: /\.js$/,
+    exclude: paths.modules,
     include: paths.src,
-    use: [{
-      loader: 'babel-loader',
-      options: {
-        presets: [['env', { modules: false }], 'stage-0', 'react'],
-        plugins: [
-          ['transform-runtime', {
-            helpers: false,
-            polyfill: false,
-            regenerator: true
-          }]
-        ]
-      }
-    }]
-  },
-
-  cssLoader: {
-    test: /\.css$/,
-    include: paths.src,
-    use: ['style-loader', 'css-loader']
+    use: 'babel-loader'
   },
 
   stylusLoader: {
     test: /\.styl$/,
+    exclude: paths.modules,
     include: paths.src,
     use: [
       'style-loader',

@@ -4,8 +4,6 @@ import LoginForm from './loginForm'
 import SignUpForm from './signupForm'
 import Button from 'components/button'
 import { PageHeader } from 'react-bootstrap'
-import Link from './Link'
-import styles from './App.css'
 
 class Login extends PureComponent {
   state = {
@@ -35,9 +33,6 @@ class Login extends PureComponent {
             ? (<LoginForm onLogon={() => this.redirectToIndex()} />)
             : (<SignUpForm onSignUp={() => this.redirectToIndex()} />)
         }
-        <Link color='red' className={styles.link}>
-          Try out now!
-        </Link>
       </div>
     )
   }

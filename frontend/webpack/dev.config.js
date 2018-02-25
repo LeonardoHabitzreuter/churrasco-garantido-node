@@ -4,9 +4,10 @@ const webpack = require('webpack')
 const common = require('./common')
 const HtmlPlugin = require('html-webpack-plugin')
 const DashboardPlugin = require('webpack-dashboard/plugin')
+const CleanWebpackPlugin = require('clean-webpack-plugin')
 
 module.exports = {
-  devtool: 'source-map',
+  devtool: 'inline-source-map',
 
   entry: [
     'react-hot-loader/patch',
@@ -24,13 +25,13 @@ module.exports = {
     new webpack.NamedModulesPlugin(),
     new webpack.HotModuleReplacementPlugin(),
     new DashboardPlugin(),
-    new HtmlPlugin(common.htmlPluginConfig)
+    new HtmlPlugin(common.htmlPluginConfig),
+    new CleanWebpackPlugin([common.paths.public])
   ],
 
   module: {
     rules: [
       common.jsLoader,
-      common.cssLoader,
       common.stylusLoader,
       common.fileLoader,
       common.urlLoader
