@@ -1,8 +1,10 @@
 import React from 'react'
 import { Button as ReactButton } from 'react-bootstrap'
+import styles from './button.styl'
+import classnames from 'classnames'
 
-const Button = props => (
-  <ReactButton {...props}>{props.children}</ReactButton>
+const Button = ({ children, customStyle, ...rest }) => (
+  <ReactButton className={classnames(styles[rest.bsStyle], customStyle)} {...rest}>{children}</ReactButton>
 )
 
 Button.defaultProps = {
