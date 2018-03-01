@@ -1,4 +1,4 @@
-const mongoURL = require('../../configs/dburl').url
+const mongoURL = require('./dburl').url
 const mongoose = require('mongoose')
 mongoose.Promise = global.Promise
 
