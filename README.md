@@ -1,2 +1,2 @@
 # churrasco-garantido-node
-Projeto backend do churrasco garantido desenvolvide em NodeJS
+Projeto backend do churrasco garantido desenvolvido em NodeJS
