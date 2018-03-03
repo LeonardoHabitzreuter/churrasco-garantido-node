@@ -12,6 +12,6 @@ describe('entitiesFieldsValidator', () => {
     it('should return an empty array when the object is valid', () => {
         const errors = getErrors([{ name: 'codigo', value: '123', minLength: 2, maxLength: 8 }])
         
-        expect(errors).to.be.empty
+        expect(errors).to.be.not.empty
     })
 })
