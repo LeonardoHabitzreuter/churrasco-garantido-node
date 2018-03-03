@@ -1,7 +1,7 @@
 {
-  "name": "teste-taller-backend",
+  "name": "churrasco-garantido-node",
   "version": "1.0.0",
-  "description": "backend do teste técnico da taller",
+  "description": "Projeto backend do churrasco garantido desenvolvido em NodeJS",
   "main": "src/index.js",
   "scripts": {
     "clear": "rm -rf dist",
@@ -28,14 +28,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/LeonardoHabitzreuter/teste-taller.git"
+    "url": "git+https://github.com/LeonardoHabitzreuter/churrasco-garantido-node.git"
   },
   "author": "Leonardo Habitzreuter <leonardo.h@hbsis.com.br> (https://github.com/LeonardoHabitzreuter)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/LeonardoHabitzreuter/teste-taller/issues"
+    "url": "https://github.com/LeonardoHabitzreuter/churrasco-garantido-node/issues"
   },
-  "homepage": "https://github.com/LeonardoHabitzreuter/teste-taller#readme",
+  "homepage": "https://github.com/LeonardoHabitzreuter/churrasco-garantido-node#readme",
   "dependencies": {
     "bcrypt": "^1.0.3",
     "body-parser": "^1.18.2",
