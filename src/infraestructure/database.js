@@ -1,4 +1,4 @@
-const mongoURL = require('./dburl').url
+const mongoURL = process.env.dbUrl || require('../.env').dbUrl
 const mongoose = require('mongoose')
 mongoose.Promise = global.Promise
 

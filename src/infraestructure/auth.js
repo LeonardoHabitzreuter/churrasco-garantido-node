@@ -1,6 +1,5 @@
 const jwt = require('jsonwebtoken')
-const env = require('../.env')
-const authSecret = env ? env.authSecret : process.env.authSecret
+const authSecret = process.env.authSecret || require('../.env').authSecret
 
 const getTestToken = () => jwt.sign({id: '5a84ad9f60d49723c78e434a'}, authSecret, { expiresIn: '1h' })
 
