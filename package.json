@@ -6,9 +6,9 @@
   "scripts": {
     "clear": "rm -rf dist",
     "build": "npm run clear && gulp build",
-    "test": "./node_modules/.bin/mocha tests/**/*.tests.js",
-    "test:coverage": "nyc npm test -- --exit",
-    "test:dev": "npm test -- --watch",
+    "test": "./node_modules/.bin/mocha tests/**/*.tests.js --exit",
+    "test:coverage": "nyc npm test",
+    "test:dev": "./node_modules/.bin/mocha tests/**/*.tests.js --watch",
     "coveralls": "npm run test:coverage && nyc report --reporter=text-lcov | coveralls",
     "prepush": "npm run test:coverage",
     "start": "npm run build && pm2 start configs/appConfigs.json",
