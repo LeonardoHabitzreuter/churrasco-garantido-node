@@ -10,6 +10,7 @@ const paths = {
 }
 
 const moveEnvFile = () => {
+  console.log('aqui')
   console.log(global.dbUrl)
   console.log(global.dbSecret)
   console.log(process.env.dbUrl)
