@@ -9,7 +9,13 @@ const paths = {
   }
 }
 
-const moveEnvFile = () => gulp.src('src/.env', { allowEmpty: true }).pipe(gulp.dest(paths.scripts.dest))
+const moveEnvFile = () => {
+  console.log(global.dbUrl)
+  console.log(global.dbSecret)
+  console.log(process.env.dbUrl)
+  console.log(process.env.dbSecret)
+  gulp.src('src/.env', { allowEmpty: true }).pipe(gulp.dest(paths.scripts.dest))
+}
 
 const compress = () => (
   gulp.src(paths.scripts.src, { sourcemaps: true })
