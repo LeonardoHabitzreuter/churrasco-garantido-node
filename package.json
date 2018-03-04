@@ -15,7 +15,7 @@
     "start:prod": "npm run start -- --env production"
   },
   "nyc": {
-    "functions": 60,
+    "functions": 70,
     "lines": 76,
     "check-coverage": true,
     "reporter": [
