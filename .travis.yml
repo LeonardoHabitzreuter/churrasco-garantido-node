@@ -1,13 +1,13 @@
-
 language: node_js
 node_js:
-  - "9"
+- '9'
 cache:
-  directories:
-    "node_modules"
-
+  directories: node_modules
 before_script:
-  - npm run build
-
+- npm run build
 after_success:
-  - npm run coveralls
+- npm run coveralls
+env:
+  global:
+  - secure: 2EgQPMIBC1SsL/P4jMmKmAo3XSDWofQgFPmqMMlOrm7oyo1zzHPwPpdNgL57807g/O+yQ5ltXqRxpwlaMSSuOAtni/Kmc6rw9mGuQCsuuY+kDzvxKDpQ1qlZTYAWoqg5EFhdffM3ejFlIjWPT4um2HWc9+FS7Y2CclbR15Om8DfbBS1O6605rlL/RNcYvom0iWffrj8d6FnPViO9mSwZqYsTA1CvaXbP79TKDCVVSxStB7CLbcz+bXSXR2NSHtk6Gi7VD3Fa2ZVtYDavA+ilWHDpRejZNKOwgo6te8Oen2Dcnba6iTiNV+rT4LBCCMkvfxOGInBuSYXMy+yXzhatOTeDEKbWPI8BN/+8+oPXaX8xf/2G6ysAwBsIpOjx6yZm5rdTD1Y/VTTqrYLPjg3UtXSdFnUeYx44Cz/3dEP6rYsGdRSgH8ojJQg/BuZeQ5eA2M4ScIfIxh2ac//jRWK5w2WKhozKWcmBh6b1hIVL/doqpntu8SuEmRkVPpZdZ1S2IClA7zucL1omNtqIPIQn4bNVQOy3FKnL9and/U0GJ37z8gCqeXSwla614atp4h7cZAkDWcIh5T4AD1s6zj8fXZrHkdNwVJhEjKzMPKxtCfOdDkd2JtVM+AE7CR9qlacJPKQbCow5xNR12kp9sK4plf/ydkl4TLNgUQJYWRmh+Ic=
+  - secure: H3g9O89RhC0AUy/aq7bdPQSjpGD5pLqceHQg/51N2O9LY07nE2Wt7d9jFcQ/w29qXi2X2VxX92E1Jj2vO3XvgTTz3e7X0IouX7dxOz+g4KGWjtWTe6qg0ZV0Espj0QLWQyjeVyvqDGhprcRU7h6oqVS+Qw9lLMfIli/qJ1U/dBcsGLQ4Vrl4Vbugmc1L3++pTdVkIDZxs7ZJiqrLMXj7dErwRM5SMlUzzggOoQX3rkzSfsm78WF9CzQNpFu5gr/geygEFnuxyDsFHIXSM3VIIODoJBk8yjSvxIPMOE7Rd/pCOC3w4nEjliJukY76/MLnbaPxW0X3FgVl7Ajcwpx79sugO1o8swpgKODopIEtIEfO6/Vih2rbnLvxIcI/c3ro9rM1PVBn2sXsPn5viCbgMyNqiXssgh8ayW70TAASIl/pq+KvFh2BlnI8Fw+NC8lsCWHXDnVbiwKQaOOtBYnm6HyxaLlE/U2Bfr72ugApvQ/ThzlIXhd+IyBjerDoYgtsF/fYW5upC0PmSpSFPwEu1KlrP9Y8a8S8q8sj/aBvxdR1U8EBW+CRfHTen+o92B9XhauNYX8TRn68nC0f3zTq706wGH+icPJMJY/0q2OfxPu6B8Fr8wLZ0G08LzawtBDfLV6zVLLsvx8vY6GYVFqiRlYhb5k/6H3Cv4MoNuz2/qY=
