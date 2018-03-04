@@ -13,9 +13,9 @@ const moveEnvFile = () => gulp.src('src/.env', { allowEmpty: true }).pipe(gulp.d
 
 const test = () => {
   console.log(process.env.authKey)
+  console.log(global.authKey)
   console.log(process.env.authSecret)
   console.log(process.env.authSecret[4])
-  console.log(process.env.authKey[4])
 }
 
 const compress = () => (
