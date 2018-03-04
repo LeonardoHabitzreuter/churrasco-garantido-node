@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 const User = require('./users')
 const UserService = require('./userService')
-const env = require('../../.env')
+const authSecret = process.env.authSecret || require('../../.env').authSecret
 const errorHandler = require('../../infraestructure/errorHandler')
 
 const login = (req, res, next) => {
@@ -13,7 +13,7 @@ const login = (req, res, next) => {
         if (err) {
             return errorHandler.handleMongoDBErrors(res, err)
         } else if (user && bcrypt.compareSync(password, user.password)) {
-            const token = jwt.sign({id: user.id}, env.authSecret, {
+            const token = jwt.sign({id: user.id}, authSecret, {
                 expiresIn: '6h'
             })
             res.json({ userId: user.id, token })
@@ -26,7 +26,7 @@ const login = (req, res, next) => {
 const validateToken = (req, res, next) => {
     const token = req.body.token || ''
 
-    jwt.verify(token, env.authSecret, (err, decoded) => {
+    jwt.verify(token, authSecret, (err, decoded) => {
         return res.status(200).send({ valid: !err })
     })
 }
