@@ -1,0 +1,12 @@
+{
+    "functions": 100,
+    "lines": 100,
+    "check-coverage": true,
+    "reporter": [
+      "text",
+      "html"
+    ],
+    "exclude": [
+      "tests/**"
+    ]
+}

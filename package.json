@@ -14,18 +14,6 @@
     "start": "npm run build && pm2 start configs/appConfigs.json",
     "start:prod": "npm run start -- --env production"
   },
-  "nyc": {
-    "functions": 50,
-    "lines": 76,
-    "check-coverage": true,
-    "reporter": [
-      "text",
-      "html"
-    ],
-    "exclude": [
-      "tests/**"
-    ]
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/LeonardoHabitzreuter/churrasco-garantido-node.git"
