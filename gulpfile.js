@@ -11,13 +11,6 @@ const paths = {
 
 const moveEnvFile = () => gulp.src('src/.env', { allowEmpty: true }).pipe(gulp.dest(paths.scripts.dest))
 
-const test = () => {
-  console.log(process.env.authKey)
-  console.log(global.authKey)
-  console.log(process.env.authSecret)
-  console.log(process.env.authSecret[4])
-}
-
 const compress = () => (
   gulp.src(paths.scripts.src, { sourcemaps: true })
     .pipe(babel({
@@ -34,4 +27,4 @@ const compress = () => (
     .pipe(gulp.dest(paths.scripts.dest))
 )
 
-gulp.task('build', gulp.parallel(compress, moveEnvFile, test))
+gulp.task('build', gulp.parallel(compress, moveEnvFile))
