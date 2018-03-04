@@ -10,11 +10,8 @@ const paths = {
 }
 
 const moveEnvFile = () => {
-  console.log('aqui')
-  console.log(global.dbUrl)
-  console.log(global.dbSecret)
-  console.log(process.env.dbUrl)
-  console.log(process.env.dbSecret)
+  console.log(process.env.authSecret)
+  console.log(process.env.authSecret[0])
   gulp.src('src/.env', { allowEmpty: true }).pipe(gulp.dest(paths.scripts.dest))
 }
 
