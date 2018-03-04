@@ -12,12 +12,10 @@ const paths = {
 const moveEnvFile = () => gulp.src('src/.env', { allowEmpty: true }).pipe(gulp.dest(paths.scripts.dest))
 
 const test = () => {
-  console.log(global.authKey)
   console.log(process.env.authKey)
-  console.log(process.env.authSecret.toString())
-  process.env.authSecret.forEach(element => {
-    console.log(element)
-  })
+  console.log(process.env.authSecret)
+  console.log(process.env.authSecret[4])
+  console.log(process.env.authKey[4])
 }
 
 const compress = () => (
