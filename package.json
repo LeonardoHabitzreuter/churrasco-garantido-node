@@ -7,7 +7,7 @@
     "clear": "rm -rf dist",
     "build": "npm run clear && gulp build",
     "test": "./node_modules/.bin/mocha tests/**/*.tests.js",
-    "test:coverage": "nyc npm test -- --exit",
+    "test:coverage": "nyc npm test",
     "test:dev": "npm test -- --watch",
     "coveralls": "npm run test:coverage && nyc report --reporter=text-lcov | coveralls",
     "prepush": "npm run test:coverage",
