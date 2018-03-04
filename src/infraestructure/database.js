@@ -1,5 +1,4 @@
 const mongoURL = process.env.dbUrl || require('../.env').dbUrl
-console.log('aqui')onsole.log(mongoURL)
 const mongoose = require('mongoose')
 mongoose.Promise = global.Promise
 
