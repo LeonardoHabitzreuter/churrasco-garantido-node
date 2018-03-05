@@ -10,7 +10,6 @@
     "test:coverage": "nyc npm test",
     "test:dev": "./node_modules/.bin/mocha tests/**/*.tests.js --watch",
     "coveralls": "npm run test:coverage && nyc report --reporter=text-lcov | coveralls",
-    "prepush": "npm run test:coverage",
     "start": "npm run build && pm2 start configs/appConfigs.json",
     "start:prod": "npm run start -- --env production"
   },
@@ -30,6 +29,7 @@
     "cors": "^2.8.4",
     "express": "^4.16.2",
     "express-query-int": "^2.0.0",
+    "husky": "^0.15.0-rc.8",
     "jsonwebtoken": "^8.1.1",
     "mongoose": "^5.0.3",
     "node-restful": "^0.2.6",
