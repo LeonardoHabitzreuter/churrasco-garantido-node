@@ -16,13 +16,13 @@ const compress = () => (
     .pipe(babel({
       presets: ['babel-preset-env'],
       plugins: [
-        ["transform-runtime", {
-          "helpers": false,
-          "polyfill": false,
-          "regenerator": true
+        ['transform-runtime', {
+          'helpers': false,
+          'polyfill': false,
+          'regenerator': true
         }]
       ]
-		}))
+    }))
     .pipe(uglify())
     .pipe(gulp.dest(paths.scripts.dest))
 )

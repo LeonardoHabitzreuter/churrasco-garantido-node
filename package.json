@@ -4,14 +4,30 @@
   "description": "Projeto backend do churrasco garantido desenvolvido em NodeJS",
   "main": "src/index.js",
   "scripts": {
-    "clear": "rm -rf dist",
     "build": "npm run clear && gulp build",
+    "clear": "rm -rf dist",
+    "coveralls": "npm run test:coverage && nyc report --reporter=text-lcov | coveralls",
+    "lint": "standard",
+    "start": "npm run build && pm2 start configs/appConfigs.json",
+    "start:prod": "npm run start -- --env production",
     "test": "./node_modules/.bin/mocha tests/**/*.tests.js --exit",
     "test:coverage": "nyc npm test",
-    "test:dev": "./node_modules/.bin/mocha tests/**/*.tests.js --watch",
-    "coveralls": "npm run test:coverage && nyc report --reporter=text-lcov | coveralls",
-    "start": "npm run build && pm2 start configs/appConfigs.json",
-    "start:prod": "npm run start -- --env production"
+    "test:dev": "./node_modules/.bin/mocha tests/**/*.tests.js --watch"
+  },
+  "standard": {
+    "ignore": [
+      "cnpjValidator.js"
+    ],
+    "globals": [
+      "beforeEach",
+      "afterEach",
+      "it",
+      "context",
+      "describe",
+      "expect",
+      "test"
+    ],
+    "parser": "babel-eslint"
   },
   "repository": {
     "type": "git",
@@ -37,6 +53,7 @@
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
+    "babel-eslint": "^8.2.2",
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-env": "^1.6.1",
     "chai": "^4.1.2",
@@ -50,6 +67,7 @@
     "nyc": "^11.5.0",
     "sinon": "^4.3.0",
     "sinon-chai": "^2.14.0",
+    "standard": "^11.0.0",
     "supertest": "^3.0.0"
   }
 }
