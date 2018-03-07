@@ -20,20 +20,10 @@ describe('userService', () => {
 
   beforeEach(() => {
     updateStub = sinon.stub(User, 'update').callsFake((query, entity, callback) => { callback(null) })
-    userFindOne = sinon.stub(User, 'findOne').callsFake((query, callback) => {
-      callback(null, {
-        id: '1',
-        name: 'Leonardo Habitzreuter',
-        email: 'leo.habitzreuter@gmail.com',
-        password: 'senhaAntiga1234',
-        confirmPassword: 'senhaAntiga1234'
-      })
-    })
   })
 
   afterEach(() => {
     updateStub.restore()
-    userFindOne.restore()
   })
 
   context('user validation', () => {
@@ -75,6 +65,7 @@ describe('userService', () => {
 
     it('should return no error when all the fields are valid', () => {
       const passwordHash = bcrypt.hashSync('123456', salt)
+      userFindOne = sinon.stub(User, 'findOne').callsFake((query, callback) => callback(null, null))
 
       userService.getValidationErrors({
         name: 'teste12',
@@ -84,12 +75,23 @@ describe('userService', () => {
         confirmPassword: '123456'
       }, callback)
 
-      expect(callback).to.have.been.calledWith(null)
+      userFindOne.restore()
+      expect(callback).to.have.been.calledWith()
     })
   })
 
   context('user requests', () => {
     it('should update the user with a hash of the password receveid from the body', done => {
+      userFindOne = sinon.stub(User, 'findOne').callsFake((query, callback) => {
+        callback(null, {
+          id: '1',
+          name: 'Leonardo Habitzreuter',
+          email: 'leo.habitzreuter@gmail.com',
+          password: 'senhaAntiga1234',
+          confirmPassword: 'senhaAntiga1234'
+        })
+      })
+
       request(server)
         .put('/api/users/1')
         .set('Authorization', testToken)
@@ -108,6 +110,7 @@ describe('userService', () => {
             email: 'leo.habitzreuter@gmail.com',
             password: 'teste1234'
           }})
+          userFindOne.restore()
           done()
         })
     })

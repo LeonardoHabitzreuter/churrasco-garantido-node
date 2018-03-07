@@ -1,6 +1,6 @@
 {
     "functions": 50,
-    "lines": 76,
+    "lines": 75,
     "check-coverage": true,
     "reporter": [
       "text",
