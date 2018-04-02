@@ -50,7 +50,7 @@
     "mongoose": "^5.0.3",
     "morgan": "^1.9.0",
     "node-restful": "^0.2.6",
-    "pm2": "^2.9.3"
+    "pm2": "^2.10.2"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
