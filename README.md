@@ -6,3 +6,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/LeonardoHabitzreuter/churrasco-garantido-node/badge.svg?branch=master)](https://coveralls.io/github/LeonardoHabitzreuter/churrasco-garantido-node?branch=master)
 
 Projeto backend do churrasco garantido desenvolvido em NodeJS
+
+**Importante !!**
+
+A parte frontend deste projeto foi movida para este repositório [churrasco-garantido-front](https://github.com/LeonardoHabitzreuter/churrasco-garantido-front)
