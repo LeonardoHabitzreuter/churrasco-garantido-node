@@ -5,7 +5,27 @@
 [![Build Status](https://travis-ci.org/LeonardoHabitzreuter/churrasco-garantido-node.svg?branch=master)](https://travis-ci.org/LeonardoHabitzreuter/churrasco-garantido-node)
 [![Coverage Status](https://coveralls.io/repos/github/LeonardoHabitzreuter/churrasco-garantido-node/badge.svg?branch=master)](https://coveralls.io/github/LeonardoHabitzreuter/churrasco-garantido-node?branch=master)
 
-Projeto backend do churrasco garantido desenvolvido em NodeJS
+# Variáveis de ambiente
+ - dbUrl: url de conexão para o banco de dados MongoDB
+ - authSecret: secret do token jwt
+ É recomendado que seja criado um arquivo .env dentro da pasta src para que essas variáveis não precisem ser setadas sempre
+
+# Rodando a app em ambiente de desenvolvimento
+
+**Usando docker:**
+ - ***docker image build -t churrasco-garantido-node -f Dockerfile-dev .***
+ - ***docker container run -dp 3001:3001 --name backend churrasco-garantido-node***
+ - A aplicação estará disponível no endereço **http://localhost:3001**
+ 
+ **Usando docker compose:**
+ - Também é necessário que você tenha o [repositório](github.com/LeonardoHabitzreuter/churrasco-garantido-front) da aplicação frontend na sua máquina local
+ - ***docker-compose up -d***
+ - O arquivo compose lê os arquivos "Dockerfile-dev", então não é necessária alguma configuração adicional.
+
+ **Sem usar docker:**
+ - ***npm install***
+ - ***npm start***
+ - A aplicação estará disponível no endereço **http://localhost:3001**
 
 **Importante !!**
 

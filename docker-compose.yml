@@ -1,0 +1,20 @@
+version: '3'
+networks:
+  web:
+services:
+  frontend:
+    build:
+      context: ../churrasco-garantido-front
+      dockerfile: Dockerfile-dev
+    ports:
+      - 3000:3000
+    networks:
+      - web
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile-dev
+    ports:
+      - 3001:3001
+    networks:
+      - web
