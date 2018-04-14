@@ -13,6 +13,6 @@ server.use(bodyParser.json())
 server.use(allowCors)
 server.use(queryParser())
 
-server.listen(port, () => console.log('server running on port 3001'))
+server.listen(port, '0.0.0.0', () => console.log('server running on port 3001'))
 
 module.exports = server
