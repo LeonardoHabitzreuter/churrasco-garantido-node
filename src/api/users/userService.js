@@ -1,4 +1,4 @@
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcryptjs')
 const User = require('./users')
 const errorHandler = require('../../infraestructure/errorHandler')
 const getErrors = require('../entitiesFieldsValidator').getErrors

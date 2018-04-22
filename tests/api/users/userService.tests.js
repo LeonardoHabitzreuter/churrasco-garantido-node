@@ -4,7 +4,7 @@ const chai = require('chai')
 const {expect} = chai
 const sinonChai = require('sinon-chai')
 chai.use(sinonChai)
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcryptjs')
 const salt = bcrypt.genSaltSync()
 const testToken = require('../../../src/infraestructure/auth').getTestToken()
 
