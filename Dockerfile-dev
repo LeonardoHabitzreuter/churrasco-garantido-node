@@ -7,4 +7,4 @@ COPY . /app
 WORKDIR /app
 RUN npm i -g pm2 && npm install
 EXPOSE 3001
-CMD ["pm2", "start", "configs/pm2.dev.json", "--no-daemon"]
+CMD ["npm", "start", "--no-daemon"]
