@@ -27,6 +27,13 @@
  - ***npm start***
  - A aplicação estará disponível no endereço **http://localhost:3001**
 
+# Gerando a imagem docker para ambientes de produção
+ - Execute o arquivo "build" passando como argumento a versao da aplicação:
+ - ***sudo bash build.sh 1.0.0***
+ - Este arquivo shell irá fazer build da aplicação e também de sua imagem para produção
+ - Cheque se a imagem foi criada corretamente:
+ - ***docker image ls***
+
 **Importante !!**
 
 A parte frontend deste projeto foi movida para este repositório [churrasco-garantido-front](https://github.com/LeonardoHabitzreuter/churrasco-garantido-front)
