@@ -9,9 +9,7 @@ const paths = {
   }
 }
 
-const moveEnvFile = () => gulp.src('src/.env', { allowEmpty: true }).pipe(gulp.dest(paths.scripts.dest))
-
-const compress = () => (
+gulp.task('build', () => (
   gulp.src(paths.scripts.src, { sourcemaps: true })
     .pipe(babel({
       presets: ['babel-preset-env'],
@@ -25,6 +23,4 @@ const compress = () => (
     }))
     .pipe(uglify())
     .pipe(gulp.dest(paths.scripts.dest))
-)
-
-gulp.task('build', gulp.parallel(compress, moveEnvFile))
+))

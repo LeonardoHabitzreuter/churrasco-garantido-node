@@ -29,10 +29,14 @@
 
 # Gerando a imagem docker para ambientes de produção
  - Execute o arquivo "build" passando como argumento a versao da aplicação:
- - ***sudo bash build.sh 1.0.0***
+ - ***sudo bash release.sh 1.0.0***
  - Este arquivo shell irá fazer build da aplicação e também de sua imagem para produção
  - Cheque se a imagem foi criada corretamente:
  - ***docker image ls***
+
+# Variáveis de ambiente:
+ - authSecret: Segredo do token JWT
+ - dbUrl: String de conexão com o mongoDB
 
 **Importante !!**
 
