@@ -1,9 +1,14 @@
 FROM keymetrics/pm2:8-alpine
 LABEL maintainer="Leonardo Habitzreuter <leo.habitzreuter@gmail.com>"
-COPY dist /app/dist
+RUN addgroup -g 9999 appgroup && \
+    adduser -u 9999 -G appgroup -D appuser && \
+    mkdir app && \
+    chown appuser:appgroup app
+USER appuser
+COPY --chown=appuser:appgroup dist /app/dist
 WORKDIR /app
-COPY package.json package.json
-COPY configs configs
+COPY --chown=appuser:appgroup package.json package.json
+COPY --chown=appuser:appgroup configs configs
 ENV NPM_CONFIG_LOGLEVEL warn
 ENV NODE_ENV production
 RUN npm install --production
