@@ -8,7 +8,7 @@
 # Variáveis de ambiente
  - dbUrl: url de conexão para o banco de dados MongoDB
  - authSecret: secret do token jwt
- É recomendado que seja criado um arquivo .env dentro da pasta src para que essas variáveis não precisem ser setadas sempre
+ Para o ambiente de desenvolvimento é recomendado que seja criado um arquivo .env dentro da pasta src para que essas variáveis não precisem ser setadas sempre
 
 # Rodando a app em ambiente de desenvolvimento
 
@@ -27,16 +27,18 @@
  - ***npm start***
  - A aplicação estará disponível no endereço **http://localhost:3001**
 
-# Gerando a imagem docker para ambientes de produção
+## Versionamento
+
+Usamos [SemVer](http://semver.org/) para versionamento. Para as versões disponíveis verifique [tags nesse repositorio](https://github.com/LeonardoHabitzreuter/tags). 
+
+# Criando uma nova versão da aplicação
  - Execute o arquivo "build" passando como argumento a versao da aplicação:
  - ***sudo bash release.sh 1.0.0***
- - Este arquivo shell irá fazer build da aplicação e também de sua imagem para produção
- - Cheque se a imagem foi criada corretamente:
- - ***docker image ls***
-
-# Variáveis de ambiente:
- - authSecret: Segredo do token JWT
- - dbUrl: String de conexão com o mongoDB
+ - Este arquivo shell irá:
+ * Versionar o projeto
+ * Criar a imagem Docker da app para rodar em ambiente de produção
+ * Fazer push da imagem para o [Docker Hub](https://hub.docker.com/r/leonardohabitzreuter/churrasco-garantido-node/)
+ - Após isso adicione as release notes da nova versão [aqui](https://github.com/LeonardoHabitzreuter/tags) e atualize o ambiente de produção para usar a nova versão da aplicação
 
 **Importante !!**
 
