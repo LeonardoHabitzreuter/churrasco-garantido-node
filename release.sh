@@ -1,5 +1,8 @@
 #!/bin/sh
 
-imageTag=${1:-'latest'}
+version=${1:-'latest'}
+git tag -a version
+git push origin --tags
 npm run build
-docker image build -t leonardohabitzreuter/churrasco-garantido-node:${imageTag} .
+docker image build -t leonardohabitzreuter/churrasco-garantido-node:${version} .
+docker image push leonardohabitzreuter/churrasco-garantido-node:${version}

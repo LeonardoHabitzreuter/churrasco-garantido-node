@@ -9,7 +9,7 @@
     "coveralls": "npm run test:coverage && nyc report --reporter=text-lcov | coveralls",
     "lint": "standard",
     "start": "pm2 start configs/pm2.dev.json",
-    "start:prod": "NODE_ENV=production pm2-runtime start configs/pm2.prod.json",
+    "start:prod": "NODE_ENV=production ./node_modules/.bin/pm2-runtime start configs/pm2.prod.json",
     "test": "./node_modules/.bin/mocha tests/**/*.tests.js --exit",
     "test:coverage": "nyc npm test",
     "test:dev": "./node_modules/.bin/mocha tests/**/*.tests.js --watch"
