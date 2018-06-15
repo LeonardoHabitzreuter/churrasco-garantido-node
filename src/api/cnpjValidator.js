@@ -35,8 +35,6 @@ module.exports = {
   cnpjIsValid: cnpj => {
     if (!cnpj) return false
   
-    if (cnpj === '') return false
-  
     if (cnpj.length !== 14) return false
   
     if (allStringCharactersAreEqual(cnpj)) return false

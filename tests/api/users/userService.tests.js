@@ -46,7 +46,7 @@ describe('userService', () => {
 
       userService.getValidationErrors({ name: 'teste12', email: 'teste1234@gmail.com', password: '1234', passwordHash, confirmPassword: '1234' }, callback)
 
-      expect(callback).to.have.been.calledWith(['O campo senha: Deve ser maior que 6.'])
+      expect(callback).to.have.been.calledWith(['O campo senha deve ser maior que 6.'])
     })
 
     it('should return one error when the password have more than 20 characters', () => {
@@ -60,7 +60,7 @@ describe('userService', () => {
         confirmPassword: '123456789123456789123'
       }, callback)
 
-      expect(callback).to.have.been.calledWith(['O campo senha: Deve ser menor que 20.'])
+      expect(callback).to.have.been.calledWith(['O campo senha deve ser menor que 20.'])
     })
 
     it('should return no error when all the fields are valid', () => {

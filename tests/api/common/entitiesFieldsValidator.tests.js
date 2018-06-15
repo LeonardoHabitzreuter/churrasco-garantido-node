@@ -3,7 +3,7 @@ const expect = require('chai').expect
 
 const getErrors = require('../../../src/api/entitiesFieldsValidator').getErrors
 
-describe.only('entitiesFieldsValidator', () => {
+describe('entitiesFieldsValidator', () => {
   it('should return an array with one error when the value is smaller than the minLength', () => {
     const errors = getErrors([{ name: 'codigo', value: '123', minLength: 4, maxLength: 8 }])
 

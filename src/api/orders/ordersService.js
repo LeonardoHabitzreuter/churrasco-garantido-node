@@ -11,7 +11,7 @@ const getErrorsFromCreateRequest = ({ company, products }) => {
   const errors = []
   if (!company) errors.push('É obrigatório informar a empresa do pedido.')
   if (!products || !_.some(products)) errors.push('É obrigatório informar ao menos um produto.')
-  if (products.some(product => !product.amount || !product.name)) errors.push('É necessário que todos os produtos tenham uma descrição e quantidade maior que 0.')
+  if (products && products.some(product => !product.amount || !product.name)) errors.push('É necessário que todos os produtos tenham uma descrição e quantidade maior que 0.')
   return errors
 }
 
