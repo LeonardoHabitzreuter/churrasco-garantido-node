@@ -1,17 +1,21 @@
+const R = require('ramda')
+
+const composeErrors = R.curry((beginOfError, { condition, message }) => condition ? `${beginOfError} ${message}` : null)
+
 module.exports = {
-  getErrors: fields => {
-    const errors = []
+  getErrors: fields => (
+    R.flatten(fields
+      .filter(field => field.minLength || field.maxLength)
+      .map(field => {
+        const validatons = [{
+          condition: field.minLength && field.value.length < field.minLength,
+          message: `deve ser maior que ${field.minLength}.`
+        }, {
+          condition: field.maxLength && field.value.length > field.maxLength,
+          message: `deve ser menor que ${field.maxLength}.`
+        }]
 
-    fields.forEach(field => {
-      if (!field.minLength && !field.maxLength) return
-
-      let error = `O campo ${field.name}:`
-      if (field.minLength && field.value.length < field.minLength) error += ` Deve ser maior que ${field.minLength}.`
-      if (field.maxLength && field.value.length > field.maxLength) error += ` Deve ser menor que ${field.maxLength}.`
-
-      if (error !== `O campo ${field.name}:`) errors.push(error)
-    })
-
-    return errors
-  }
+        return validatons.map(composeErrors(`O campo ${field.name}`)).filter(error => error != null)
+      }))
+  )
 }
