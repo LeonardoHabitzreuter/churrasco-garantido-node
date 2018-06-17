@@ -1,18 +1,22 @@
-const _ = require('lodash')
+const R = require('ramda')
+
+const getInnerErrors = R.pipe(
+  R.prop('errors'),
+  R.map(x => x.message),
+  R.values
+)
 
 const handleNodeRestfulErrors = (req, res, next) => {
   const bundle = res.locals.bundle
 
   if (!bundle.errors) next()
 
-  const errors = []
-  _.forIn(bundle.errors, error => errors.push(error.message))
+  const errors = getInnerErrors(bundle)
   res.status(500).json({errors})
 }
 
 const handleMongoDBErrors = (res, dbErrors) => {
-  const errors = []
-  _.forIn(dbErrors.errors, error => errors.push(error.message))
+  const errors = getInnerErrors(dbErrors)
   return res.status(400).json({ errors })
 }
 

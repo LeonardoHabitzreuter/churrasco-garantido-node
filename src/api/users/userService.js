@@ -1,5 +1,4 @@
 const bcrypt = require('bcryptjs')
-const _ = require('lodash')
 const R = require('ramda')
 const User = require('./users')
 const errorHandler = require('../../infraestructure/errorHandler')
@@ -54,8 +53,12 @@ const getValidationErrors = ({ id = null, name, email, password, passwordHash, c
 
   User.findOne({ email }, (err, user) => {
     if (err) {
-      _.forIn(err.errors, error => errors.push(error.message))
-      callback(errors)
+      const getInnerErrors = R.pipe(
+        R.prop('errors'),
+        R.map(prop => prop.message),
+        R.values
+      )
+      callback(getInnerErrors(err))
       return
     }
 
