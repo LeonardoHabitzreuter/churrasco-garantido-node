@@ -1,8 +1,7 @@
+const R = require('ramda')
 const Company = require('./company')
 const errorHandler = require('../../infraestructure/errorHandler')
-const _ = require('lodash')
-const cnpjValidator = require('../cnpjValidator')
-const getErrors = require('../entitiesFieldsValidator').getErrors
+const { cnpjValidator, fieldsValidator } = require('../validations/index')
 const auth = require('../../infraestructure/auth')
 
 Company.methods(['get'])
@@ -21,10 +20,10 @@ const createCompany = (req, res, next) => {
     const cnpj = req.body.cnpj.replace(/[^\d]+/g, '')
     const requestUser = auth.getRequestUserId(req.headers['authorization'])
 
-    const errors = getErrors([{ name: 'nome', value: name, minLength: 4, maxLength: 30 }])
+    const errors = R.call(fieldsValidator.getErrors([{ name: 'nome', value: name, minLength: 4, maxLength: 30 }]))
     if (!cnpjValidator.cnpjIsValid(cnpj)) errors.push('O CNPJ é inválido.')
 
-    if (_.some(errors)) return res.status(400).send(errors)
+    if (!R.isEmpty(errors)) return res.status(400).send(errors)
 
     Company.findOne({ cnpj }, (err, company) => {
       if (err) return errorHandler.handleMongoDBErrors(res, err)

@@ -2,8 +2,8 @@ const R = require('ramda')
 
 const composeErrors = R.curry((beginOfError, { condition, message }) => condition ? `${beginOfError} ${message}` : null)
 
-module.exports = {
-  getErrors: fields => (
+const getErrors = fields => {
+  return () => (
     R.flatten(fields
       .filter(field => field.minLength || field.maxLength)
       .map(field => {
@@ -18,4 +18,8 @@ module.exports = {
         return validatons.map(composeErrors(`O campo ${field.name}`)).filter(error => error != null)
       }))
   )
+}
+
+module.exports = {
+  getErrors
 }

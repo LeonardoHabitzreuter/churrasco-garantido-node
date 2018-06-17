@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-expressions */
 const expect = require('chai').expect
 
-const cnpjIsValid = require('../../../src/api/cnpjValidator').cnpjIsValid
+const cnpjIsValid = require('../../../src/api/validations/cnpjValidator').cnpjIsValid
 
 describe('cnpjValidator', () => {
   it('should return false when cnpj is an invalid string', () => {

@@ -15,16 +15,7 @@ const server = require('../../../src/infraestructure/server')
 require('../../../src/infraestructure/router')(server)
 
 describe('userService', () => {
-  let updateStub
   let userFindOne
-
-  beforeEach(() => {
-    updateStub = sinon.stub(User, 'update').callsFake((query, entity, callback) => { callback(null) })
-  })
-
-  afterEach(() => {
-    updateStub.restore()
-  })
 
   context('user validation', () => {
     let callback
@@ -81,6 +72,16 @@ describe('userService', () => {
   })
 
   context('user requests', () => {
+    let updateStub
+
+    beforeEach(() => {
+      updateStub = sinon.stub(User, 'update').callsFake((query, entity, callback) => { callback(null) })
+    })
+
+    afterEach(() => {
+      updateStub.restore()
+    })
+
     it('should update the user with a hash of the password receveid from the body', done => {
       userFindOne = sinon.stub(User, 'findOne').callsFake((query, callback) => {
         callback(null, {

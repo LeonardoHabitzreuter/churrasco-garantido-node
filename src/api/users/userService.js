@@ -1,8 +1,9 @@
 const bcrypt = require('bcryptjs')
+const _ = require('lodash')
+const R = require('ramda')
 const User = require('./users')
 const errorHandler = require('../../infraestructure/errorHandler')
-const getErrors = require('../entitiesFieldsValidator').getErrors
-const _ = require('lodash')
+const { passwordValidator, fieldsValidator, emailValidator } = require('../validations/index')
 const emailRegex = /\S+@\S+\.\S+/
 
 User.methods(['get'])
@@ -36,16 +37,17 @@ const updateUser = (req, res, next) => {
 }
 
 const getValidationErrors = ({ id = null, name, email, password, passwordHash, confirmPassword }, callback) => {
-  const errors = getErrors([
-    { name: 'senha', value: password, minLength: 6, maxLength: 20 },
-    { name: 'nome', value: name, minLength: 6 }
-  ])
+  const checkErrors = R.pipe(
+    fieldsValidator.getErrors([
+      { name: 'senha', value: password, minLength: 6, maxLength: 20 },
+      { name: 'nome', value: name, minLength: 6 }]),
+    emailValidator.validate(email, emailRegex),
+    passwordValidator.validate(confirmPassword, passwordHash)
+  )
 
-  if (!email.match(emailRegex)) errors.push('O e-mail informado está inválido.')
+  const errors = checkErrors()
 
-  if (!bcrypt.compareSync(confirmPassword, passwordHash)) errors.push('Senhas não conferem.')
-
-  if (_.some(errors)) {
+  if (!R.isEmpty(errors)) {
     callback(errors)
     return
   }
@@ -58,8 +60,8 @@ const getValidationErrors = ({ id = null, name, email, password, passwordHash, c
     }
 
     if (user && user.id !== id) {
-      errors.push('Email já cadastrado.')
-      callback(errors)
+      const emailAlreadyAssigned = ['Email já cadastrado.']
+      callback(emailAlreadyAssigned)
     }
     callback()
   })
